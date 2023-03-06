@@ -1,17 +1,20 @@
+import { motion } from "framer-motion";
 import { StyledComponent } from "styled-components";
 import tw, { styled } from "twin.macro";
 
-export const Row = styled.div(() => [
+export const Row = styled(motion.div)(() => [
     tw`
         flex
         flex-row
+        flex-wrap
     `
 ])
 
-export const Col = styled.div(() => [
+export const Col = styled(motion.div)(() => [
     tw`
         flex
         flex-col
+        flex-wrap
     `
 ])
 
@@ -22,38 +25,7 @@ export const RowCentered = styled(Row)(() => [
     `
 ])
 
-export const ColCentered = styled(Col)(() => [
-    tw`
-        justify-center
-        items-center
-    `
-])
-
-export const RowHCentered = styled(Row)(() => [
-    tw`
-        justify-center
-    `
-])
-
-export const RowVCentered = styled(Row)(() => [
-    tw`
-        items-center
-    `
-])
-
-export const ColHCentered = styled(Col)(() => [
-    tw`
-        items-center
-    `
-])
-
-export const ColVCentered = styled(Col)(() => [
-    tw`
-        justify-center
-    `
-])
-
-export const Text = styled.p(() => [
+export const TextPrimary = styled.p(() => [
     tw`
         font-primary
         text-base

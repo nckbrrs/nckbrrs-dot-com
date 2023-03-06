@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import tw, { theme } from 'twin.macro';
 import ArrowIcon from './icons/Arrow';
-import { Row, RowCentered, RowVCentered } from './base';
+import { Col, Row, RowCentered, TextPrimary } from './base';
 import AppleMusicIcon from './icons/AppleMusic';
 import SpotifyIcon from './icons/Spotify';
 import GitHubIcon from './icons/GitHub';
@@ -9,40 +9,51 @@ import TwitterIcon from './icons/Twitter';
 import YoutubeIcon from './icons/YouTube';
 import InstagramIcon from './icons/Instagram';
 import LinkedInIcon from './icons/LinkedIn';
+import EmailIcon from './icons/Email';
+import { useState } from 'react';
+
+const IconContainer = styled(RowCentered)(() => [
+    tw`
+        w-10
+        h-10
+        p-2.5
+        rounded-full
+        fill-background
+        bg-primary
+        duration-200
+        group-hover:opacity-25
+        hover:!opacity-100
+        hover:!blur-0
+        hover:-translate-y-1 
+        hover:cursor-pointer
+    `
+]);
 
 const Footer: React.FC = () => {
-    const FooterContainer = styled(RowVCentered)(() => [
-        tw`
-            w-full
-            justify-between
-        `
-    ]);
+    const stuffIcons = [
+        <AppleMusicIcon/>,
+        <SpotifyIcon/>,
+        <TwitterIcon/>,
+        <InstagramIcon/>,
+        <YoutubeIcon/>,
+        <GitHubIcon/>,
+    ];
 
-    const IconContainer = styled(RowCentered)<{padded?: boolean}>(({padded}) => [
-        tw`
-            w-12
-            h-12
-            rounded-full
-            fill-primary
-        `,
-        padded && tw`p-3`
-    ]);
-
-    const iconsForRow = [<AppleMusicIcon/>, <SpotifyIcon/>, <GitHubIcon/>, <TwitterIcon/>, <YoutubeIcon/>, <InstagramIcon/>, <LinkedInIcon/>];
+    const contactIcons = [
+        <LinkedInIcon/>,
+        <EmailIcon/>
+    ]
+    
 
     return (
-        <FooterContainer>
-            <Row>
-                {iconsForRow.map((i) => (
-                    <IconContainer padded>
-                        {i}
-                    </IconContainer>
-                ))}
+        <Col tw="pt-10 pb-4 sm:py-20 relative">
+            <Row tw="justify-end">
+                <a href="mailto:nick@nickbarrs.com">
+                <TextPrimary tw="tracking-tightish font-mono font-medium sm:text-xl hover:font-semibold hover:drop-shadow-sm hover:-translate-y-[1px] duration-100 cursor-pointer">contact</TextPrimary>
+                </a>
             </Row>
-            <IconContainer>
-                <ArrowIcon/>
-            </IconContainer>
-        </FooterContainer>
+        </Col>
+        
     )
 }
 

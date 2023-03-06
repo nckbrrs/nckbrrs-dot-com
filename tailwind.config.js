@@ -18,8 +18,8 @@ const colors = {
   },
 }
 
-const fontFamilies = {
-  'primary': ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif']
+const fontFamily = {
+  'primary': ["Helvetica Neue", "ui-sans-serif","system-ui","-apple-system","BlinkMacSystemFont","Segoe UI","Roboto","Arial","Noto Sans","sans-serif","Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"]
 }
 
 const keyframes = {
@@ -37,21 +37,49 @@ const keyframes = {
   }
 }
 
+const animation = {
+  nounBubbleBackground: 'nounBubbleBackground 10s ease-in-out infinite'
+}
+
+const spacing = {
+  '128': '32rem'
+}
+
+const height = {
+  screen:'calc(var(--vh) * 100)',
+}
+
+const minHeight = {
+  screen: 'calc(var(--vh) * 100)'
+}
+
+const letterSpacing = {
+    tightest: '-.075em',
+    tighter: '-.05em',
+    tight: '-.025em',
+    tightish: '-0.01em',
+    normal: '0',
+    wide: '.025em',
+    wider: '.05em',
+    widest: '.1em',
+}
+
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
-      colors: colors,
-      fontFamily: fontFamilies,
-      keyframes: keyframes,
-      animation: {
-        nounBubbleBackground: 'nounBubbleBackground 10s linear infinite'
-      }
+      colors,
+      fontFamily,
+      keyframes,
+      animation,
+      spacing,
+      letterSpacing,
+      height,
+      minHeight
     },
   },
-  plugins: [],
+  plugins: []
 }

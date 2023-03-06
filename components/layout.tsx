@@ -1,51 +1,20 @@
 import { ReactNode } from "react";
 import Header from "./header";
-import styled from "styled-components";
 import Footer from "./footer";
-import { Col, ColHCentered } from "./base";
-import tw from "twin.macro";
+import { Col, Row } from "./base";
+import "twin.macro";
 
 const Layout: React.FC<{children: ReactNode}> = ({children}) => {
-    const LayoutContainer2 = styled(ColHCentered)(() => [
-        tw`
-            justify-between
-            w-screen
-            h-screen
-            max-w-screen-2xl
-            px-32
-            border-2
-            border-black
-        `
-    ])
-
-    const LayoutHeader2 = styled(Col)(() => [
-        tw`
-            w-full
-            py-24
-            border-2
-            border-blue-500
-        `
-    ])
-
-    const LayoutFooter2 = styled(Col)(() => [
-        tw`
-            w-full
-            py-24
-            border-2
-            border-purple-500
-        `
-    ])
-
     return (
-        <LayoutContainer2>
-            <LayoutHeader2>
+        <Row tw="min-h-screen justify-center">
+            <Col tw="w-screen max-w-[2000px] justify-between flex-nowrap px-3 md:px-8 lg:px-12">
                 <Header/>
-            </LayoutHeader2>
-            {children}
-            <LayoutFooter2>
+                <Col tw="h-full justify-start flex-nowrap">
+                    {children}
+                </Col>
                 <Footer/>
-            </LayoutFooter2>
-        </LayoutContainer2>
+            </Col>
+        </Row>
     )
     
 }

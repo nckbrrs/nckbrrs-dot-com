@@ -1,24 +1,22 @@
-import styled from 'styled-components';
 import Logo from './icons/Logo';
-import NounBubble from './nounBubble';
-import { Row, Text } from './base';
-import { RowVCentered } from './base';
-import tw from 'twin.macro';
+import { Col, Row, TextPrimary } from './base';
+import 'twin.macro';
+import Link from 'next/link';
 
 const Header: React.FC = () => {
-    const HeaderContainer2 = styled(RowVCentered)(() => [
-        tw`
-            justify-between
-        `
-    ])
-    
     return (
-        <HeaderContainer2>
-            <Text tw="text-6xl font-semibold tracking-tight">nick barrs</Text>
-            <Row tw="w-24 h-24">
-                <Logo/>
-            </Row>
-        </HeaderContainer2>
+        <Row tw="justify-between items-center pt-8 pb-4 sm:py-20">
+            <Col tw="drop-shadow-sm opacity-0">
+                <Link href="/">
+                    <TextPrimary tw="text-4xl sm:text-6xl font-semibold tracking-tightish">nick barrs</TextPrimary>
+                </Link>
+            </Col>
+            <Col tw="w-10 h-10 sm:w-16 sm:h-16 drop-shadow-sm">
+                <Link href="/">
+                    <Logo/>
+                </Link>
+            </Col>
+        </Row>
     )
 }
 
