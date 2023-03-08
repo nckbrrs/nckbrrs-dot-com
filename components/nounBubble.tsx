@@ -1,16 +1,18 @@
 import { useMemo } from "react";
-import { Row, RowCentered, TextPrimary } from './base'
+import { Row, RowCentered } from './base'
 import { theme } from "twin.macro";
 
 const NounBubble: React.FC = () => {
     const names: string[] = useMemo(() => [
         'developer',
-        'coffee lover',
         'creative',
         'musician',
         'photographer',
         'vocalist',
+        'coffee snob',
         'human',
+        'enneagram 9',
+        'lego builder',
         'developer',
     ], []);
     
@@ -55,7 +57,7 @@ const NounBubble: React.FC = () => {
                     ease: 'anticipate'
                 }}
             >
-                {names.map((n) => <TextPrimary key={n} tw="text-4xl font-bold text-background w-64 text-center">{n}</TextPrimary>)}
+                {names.map((n) => <p key={n} tw="text-4xl font-bold text-background w-64 text-center">{n}</p>)}
             </Row>
         </RowCentered>
     )
