@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 const Header: React.FC = () => {
     return (
-        <Col tw="pt-10 pb-4 sm:py-20">
+        <Col tw="pt-5 sm:pt-10 md:pt-12 lg:pt-20">
             <Row tw="justify-end items-center">
-                <Col tw="w-10 h-10 sm:w-16 sm:h-16 drop-shadow-sm">
+                <Col tw="w-10 h-10 md:w-12 md:h-12 xl:w-16 xl:h-16 drop-shadow-sm">
                     <Link href="/">
                         <Logo/>
                     </Link>

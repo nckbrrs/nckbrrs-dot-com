@@ -7,9 +7,9 @@ import "twin.macro";
 const Layout: React.FC<{children: ReactNode}> = ({children}) => {
     return (
         <Row tw="min-h-screen justify-center">
-            <Col tw="w-screen max-w-[2000px] justify-between flex-nowrap px-3 md:px-8 lg:px-12">
+            <Col tw="w-screen max-w-[2000px] justify-between px-3 md:px-16">
                 <Header/>
-                <Col tw="h-full justify-start flex-nowrap">
+                <Col tw="h-full justify-start">
                     {children}
                 </Col>
                 <Footer/>

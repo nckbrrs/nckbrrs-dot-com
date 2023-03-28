@@ -45,10 +45,10 @@ const Footer: React.FC = () => {
     ]
 
     return (
-        <Col tw="pt-10 pb-4 sm:py-20">
+        <Col tw="pb-5 sm:pb-10 md:pb-12 lg:pb-20">
             <Row tw="justify-end items-center">
                 <a href="mailto:nick@nickbarrs.com">
-                    <p tw="tracking-tightish font-mono font-normal sm:text-xl hover:font-semibold hover:drop-shadow-sm hover:-translate-y-[1px] duration-100 cursor-pointer">contact</p>
+                    <p tw="tracking-tightish font-mono font-normal lg:text-xl hover:font-semibold hover:drop-shadow-sm hover:-translate-y-[1px] duration-100 cursor-pointer">contact</p>
                 </a>
             </Row>
         </Col>

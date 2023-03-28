@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { Col, Row } from '../components/base';
 import 'twin.macro';
 import NounBubble from '../components/nounBubble';
+import tw, { styled } from 'twin.macro';
 
 const Home: React.FC<{users: any}> = ({ users }) => (
   <>
@@ -15,24 +16,83 @@ const Home: React.FC<{users: any}> = ({ users }) => (
       />
     </Head>
     <Col tw="items-start justify-center h-full">
-      <Row tw="pb-3 sm:pb-4">
-        <p tw="-translate-x-2 leading-[7rem] text-[9rem] sm:leading-[10rem] sm:text-[12rem] font-medium tracking-tighter">
+      <NameRow>
+        <NameText>
           nick <span tw="tracking-tight">barrs</span>
-        </p>
-      </Row>
-      <Row tw="items-center w-[21rem] lg:w-full tracking-tight">
-        <p tw="text-3xl font-medium">
-          is a 
-        </p>
-        <span tw="scale-[0.8] -translate-x-3 sm:scale-100 sm:translate-x-0 sm:translate-y-0 sm:px-3">
-          <NounBubble/>
-        </span>
-        <p tw="text-3xl font-medium leading-[3rem] sm:leading-[4rem] -translate-y-2 sm:translate-y-0">
+        </NameText>
+      </NameRow>
+      <DescriptionContainer>
+        <IsANounContainer>
+          <IsAText>
+            is a 
+          </IsAText>
+          <NounBubbleContainer>
+            <NounBubble/>
+          </NounBubbleContainer>
+        </IsANounContainer>
+        <LivingWorkingText>
           living and working in New York City.
-        </p>
-      </Row>
+        </LivingWorkingText>
+      </DescriptionContainer>
     </Col>
   </>
 )
+
+const NameRow = styled(Row)(() => [
+  tw`
+    pb-3 lg:pb-4
+  `
+])
+
+const NameText = styled.p(() => [
+  tw`
+    -translate-x-2
+    font-medium tracking-tighter
+    leading-[7rem] lg:leading-[10rem]
+    text-[8rem] lg:text-[12rem] 
+    w-1/2 md:w-full
+  `
+])
+
+const DescriptionContainer = styled(Col)(() => [
+  tw`
+    items-start lg:items-center
+    tracking-tight 
+    lg:flex-row
+    text-3xl lg:text-4xl
+    max-w-xs lg:max-w-full
+  `
+])
+
+const IsANounContainer = styled(Row)(() => [
+  tw`
+    w-fit
+    items-center
+  `
+])
+
+const IsAText = styled.p(() => [
+  tw`
+    font-medium
+    whitespace-nowrap
+  `
+])
+
+const NounBubbleContainer = styled.span(() => [
+  tw`
+    scale-[0.8] lg:scale-100
+    -translate-x-3 lg:translate-x-0
+    lg:px-3
+  `
+])
+
+const LivingWorkingText = styled.p(() => [
+  tw`
+    font-medium
+    leading-[3rem] lg:leading-[4rem]
+    -translate-y-2 lg:translate-y-0 
+    lg:whitespace-nowrap
+  `
+])
 
 export default Home
