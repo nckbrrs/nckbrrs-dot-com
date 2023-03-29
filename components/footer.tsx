@@ -1,5 +1,6 @@
 import { Col, Row } from './base';
 import ResumePdf from '../public/resume.pdf';
+import 'twin.macro'
 
 const Footer: React.FC = () => {
     return (
