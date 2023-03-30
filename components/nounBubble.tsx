@@ -17,15 +17,17 @@ const NounBubble: React.FC = () => {
     ], []);
     
     const bgColors: string[] = useMemo(() => [
-        theme('colors.mtaRed').toString(), 
-        theme('colors.mtaOrange').toString(), 
-        theme('colors.mtaGreen').toString(), 
-        theme('colors.mtaGray').toString(), 
-        theme('colors.mtaYellow').toString(), 
-        theme('colors.mtaBlue').toString(), 
-        theme('colors.mtaBrown').toString(), 
-        theme('colors.mtaPurple').toString(), 
-        theme('colors.mtaRed').toString(),
+        theme('colors.cyan.400'),
+        theme('colors.red.500'),
+        theme('colors.orange.500'),
+        theme('colors.green.500'),
+        theme('colors.gray.500'),
+        theme('colors.yellow.500'),
+        theme('colors.blue.500'),
+        theme('colors.teal.500'),
+        theme('colors.purple.500'),
+        theme('colors.red.500'),
+        theme('colors.cyan.400')
     ], []);
 
     const animationIntervalInSeconds = 2.5;
@@ -41,7 +43,8 @@ const NounBubble: React.FC = () => {
             transition={{
                 repeat: Infinity,
                 duration: (bgColors.length - 1) * animationIntervalInSeconds,
-                ease: 'anticipate'
+                ease: 'anticipate',
+                delay: 1
             }}
         >
             <Row tw="h-10 absolute left-0 flex-nowrap"
@@ -54,10 +57,11 @@ const NounBubble: React.FC = () => {
                 transition={{
                     repeat: Infinity,
                     duration: (names.length - 1) * animationIntervalInSeconds,
-                    ease: 'anticipate'
+                    ease: 'anticipate',
+                    delay: 1
                 }}
             >
-                {names.map((n) => <p key={n} tw="text-4xl font-bold text-background w-64 text-center">{n}</p>)}
+                {names.map((n) => <p key={n} tw="text-4xl font-bold text-bone w-64 text-center">{n}</p>)}
             </Row>
         </RowCentered>
     )
