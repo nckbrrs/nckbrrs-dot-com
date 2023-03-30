@@ -2,6 +2,7 @@ import type { AppContext, AppInitialProps, AppProps } from 'next/app'
 import GlobalStyles from '../styles/GlobalStyles'
 import Layout from '../components/layout'
 import { useEffect } from 'react'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -26,6 +27,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <Layout>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes, viewport-fit=cover"/>
+      </Head>
       <GlobalStyles />
       <Component {...pageProps} />
     </Layout>

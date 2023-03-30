@@ -8,10 +8,6 @@ const Home: React.FC<{users: any}> = ({ users }) => (
   <>
     <Head>
       <title>Nick Barrs / Home</title>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, shrink-to-fit=yes, viewport-fit=cover"
-      />
     </Head>
     <Col tw="items-start justify-center h-full">
       <NameRow>
