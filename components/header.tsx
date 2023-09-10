@@ -158,6 +158,8 @@ const LogoContainer = styled(Col)(() => [
         h-12 xl:h-16
         drop-shadow-sm
         cursor-pointer
+        fill-black
+        dark:fill-bone
     `
 ])
 
@@ -191,6 +193,7 @@ const MenuContainer = styled(Row)(() => [
         h-screen
         space-y-2
         bg-bone
+        dark:bg-black
         left-0
         top-0
         z-10
