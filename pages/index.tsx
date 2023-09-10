@@ -9,7 +9,7 @@ const Home: React.FC<{users: any}> = ({ users }) => (
     <Head>
       <title>Nick Barrs / Home</title>
     </Head>
-    <Col tw="items-start justify-center h-full">
+    <Col tw="items-start justify-center h-full text-black dark:text-bone">
       <NameRow>
         <NameText>
           nick <span tw="tracking-tight">barrs</span>
