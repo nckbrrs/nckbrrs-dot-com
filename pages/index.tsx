@@ -45,6 +45,7 @@ const NameText = styled.p(() => [
     leading-[7rem] lg:leading-[10rem]
     text-[8rem] lg:text-[12rem] 
     w-1/2 md:w-full
+    duration-100
   `
 ])
 
@@ -55,6 +56,7 @@ const DescriptionContainer = styled(Col)(() => [
     lg:flex-row
     text-3xl lg:text-4xl
     max-w-xs lg:max-w-full
+    duration-100
   `
 ])
 
