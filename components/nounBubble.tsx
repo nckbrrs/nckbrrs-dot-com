@@ -1,21 +1,8 @@
 import { useMemo } from "react";
 import { Row, RowCentered } from './base'
-import { theme } from "twin.macro";
+import tw, { styled, theme } from "twin.macro";
 
-const NounBubble: React.FC = () => {
-    const names: string[] = useMemo(() => [
-        'developer',
-        'creative',
-        'musician',
-        'photographer',
-        'vocalist',
-        'coffee snob',
-        'human',
-        'enneagram 9',
-        'lego builder',
-        'developer',
-    ], []);
-    
+const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {    
     const bgColors: string[] = useMemo(() => [
         theme('colors.cyan.400'),
         theme('colors.red.500'),
@@ -52,19 +39,30 @@ const NounBubble: React.FC = () => {
                     translateX: 0
                 }}
                 animate={{
-                    translateX: names.map((n, i) => `-${i*16}rem`)
+                    translateX: nouns.map((n, i) => `-${i*16}rem`)
                 }}
                 transition={{
                     repeat: Infinity,
-                    duration: (names.length - 1) * animationIntervalInSeconds,
+                    duration: (nouns.length - 1) * animationIntervalInSeconds,
                     ease: 'anticipate',
                     delay: 1
                 }}
             >
-                {names.map((n) => <p key={n} tw="text-4xl font-bold text-bone w-64 text-center">{n}</p>)}
+                {nouns.map((n) => <Noun key={n}>{n}</Noun>)}
             </Row>
         </RowCentered>
     )
 }
+
+const Noun = styled.p(() => [
+    tw`
+        text-4xl
+        font-bold
+        text-bone
+        w-64
+        text-center
+        drop-shadow-md
+    `
+])
 
 export default NounBubble;

@@ -178,7 +178,7 @@ const LinkText = styled.p(() => [
         font-bold
         italic 
         text-left
-        duration-100
+        duration-200
         group-hover:opacity-25
         group-hover:blur-[2px]
         hover:!opacity-100

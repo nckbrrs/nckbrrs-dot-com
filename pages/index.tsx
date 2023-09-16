@@ -3,34 +3,53 @@ import { Col, Row } from '../components/base';
 import 'twin.macro';
 import NounBubble from '../components/nounBubble';
 import tw, { styled } from 'twin.macro';
+import { useMemo } from 'react';
 
-const Home: React.FC<{users: any}> = ({ users }) => (
-  <>
-    <Head>
-      <title>Nick Barrs / Home</title>
-    </Head>
-    <Col tw="items-start justify-center h-full text-black dark:text-bone">
-      <NameRow>
-        <NameText>
-          nick <span tw="tracking-tight">barrs</span>
-        </NameText>
-      </NameRow>
-      <DescriptionContainer>
-        <IsANounContainer>
-          <IsAText>
-            is a 
-          </IsAText>
-          <NounBubbleContainer>
-            <NounBubble/>
-          </NounBubbleContainer>
-        </IsANounContainer>
-        <LivingWorkingText>
-          living and working in New York City.
-        </LivingWorkingText>
-      </DescriptionContainer>
-    </Col>
-  </>
-)
+
+const Home: React.FC<{users: any}> = (users) => {
+  const nounsForBubble: string[] = useMemo(() => [
+    'programmer',
+    'creative',
+    'musician',
+    'photographer',
+    'vocalist',
+    'coffee snob',
+    'human',
+    'gamer',
+    'husband',
+    'enneagram 9',
+    'lego builder',
+    'programmer',
+  ], []);
+
+  return (
+    <>
+      <Head>
+        <title>Nick Barrs / Home</title>
+      </Head>
+      <Col tw="items-start justify-center h-full text-black dark:text-bone">
+        <NameRow>
+          <NameText>
+            nick <span tw="tracking-tight">barrs</span>
+          </NameText>
+        </NameRow>
+        <DescriptionContainer>
+          <IsANounContainer>
+            <IsAText>
+              is a 
+            </IsAText>
+            <NounBubbleContainer>
+              <NounBubble nouns={nounsForBubble}/>
+            </NounBubbleContainer>
+          </IsANounContainer>
+          <LivingWorkingText>
+            living and working in New York City.
+          </LivingWorkingText>
+        </DescriptionContainer>
+      </Col>
+    </>
+  )
+}
 
 const NameRow = styled(Row)(() => [
   tw`
