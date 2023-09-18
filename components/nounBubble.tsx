@@ -20,7 +20,7 @@ const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {
     const animationIntervalInSeconds = 2.5;
 
     return (
-        <RowCentered tw="z-10 h-16 w-64 overflow-hidden rounded-full relative shadow-sm"
+        <Container
             initial={{
                 backgroundColor: bgColors[0]
             }}
@@ -50,9 +50,21 @@ const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {
             >
                 {nouns.map((n) => <Noun key={n}>{n}</Noun>)}
             </Row>
-        </RowCentered>
+        </Container>
     )
 }
+
+const Container = styled(RowCentered)(() => [
+    tw`
+        z-10
+        h-16
+        w-64
+        overflow-hidden
+        rounded-full
+        relative
+        shadow-inner
+    `
+])
 
 const Noun = styled.p(() => [
     tw`
@@ -61,7 +73,7 @@ const Noun = styled.p(() => [
         text-bone
         w-64
         text-center
-        drop-shadow-md
+        drop-shadow-sm
     `
 ])
 
