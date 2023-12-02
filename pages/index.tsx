@@ -7,19 +7,19 @@ import { useMemo } from 'react';
 
 
 const Home: React.FC<{users: any}> = (users) => {
-  const nounsForBubble: string[] = useMemo(() => [
-    'programmer',
-    'creative',
-    'musician',
-    'photographer',
-    'vocalist',
-    'coffee snob',
-    'human',
-    'gamer',
-    'husband',
-    'enneagram 9',
-    'lego builder',
-    'programmer',
+  const nounsForBubble: {text: string, width: number}[] = useMemo(() => [
+    {text: 'programmer', width: 16},
+    {text: 'creative',width: 12},
+    {text: 'musician',width: 13},
+    {text: 'photographer',width: 16},
+    {text: 'vocalist',width: 10},
+    {text: 'coffee snob',width: 16},
+    {text: 'human',width: 10},
+    {text: 'gamer',width: 9},
+    {text: 'husband',width: 13},
+    {text: 'enneagram 9',width: 16},
+    {text: 'lego builder',width: 15},
+    {text: 'programmer',width: 16},
   ], []);
 
   return (

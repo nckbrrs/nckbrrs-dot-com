@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Row, RowCentered } from './base'
 import tw, { styled, theme } from "twin.macro";
 
-const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {    
+const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns}) => {    
     const bgColors: string[] = useMemo(() => [
         theme('colors.cyan.400'),
         theme('colors.red.500'),
@@ -19,19 +19,43 @@ const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {
 
     const animationIntervalInSeconds = 2.5;
 
+    const distances: number[] = []
+    nouns.forEach((n, i) => {
+        if (i == 0) {
+            distances.push(0)
+        } else {
+            const diffFromBefore = nouns[i].width - nouns[i-1].width
+            distances.push(distances[i-1] - (16-(diffFromBefore/2)))
+        }
+    })
+
+
+
+    console.log(distances)
+
     return (
         <Container
             initial={{
-                backgroundColor: bgColors[0]
+                backgroundColor: bgColors[0],
+                width: `${nouns[0].width}rem`
             }}
             animate={{
-                background: bgColors
+                background: bgColors,
+                width: nouns.map((x) => `${x.width}rem`),
             }}
             transition={{
-                repeat: Infinity,
-                duration: (bgColors.length - 1) * animationIntervalInSeconds,
-                ease: 'anticipate',
-                delay: 1
+                background: {
+                    repeat: Infinity,
+                    duration: (bgColors.length - 1) * animationIntervalInSeconds,
+                    ease: 'anticipate',
+                    delay: 1
+                },
+                default: {
+                    repeat: Infinity,
+                    duration: (nouns.length - 1) * animationIntervalInSeconds,
+                    ease: 'anticipate',
+                    delay: 1
+                }
             }}
         >
             <Row tw="h-10 absolute left-0 flex-nowrap"
@@ -39,7 +63,7 @@ const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {
                     translateX: 0
                 }}
                 animate={{
-                    translateX: nouns.map((n, i) => `-${i*16}rem`)
+                    translateX: distances.map((d) => `${d}rem`)
                 }}
                 transition={{
                     repeat: Infinity,
@@ -48,7 +72,7 @@ const NounBubble: React.FC<{nouns: string[]}> = ({nouns}) => {
                     delay: 1
                 }}
             >
-                {nouns.map((n) => <Noun key={n}>{n}</Noun>)}
+                {nouns.map((n) => <Noun key={n.text}>{n.text}</Noun>)}
             </Row>
         </Container>
     )
@@ -58,11 +82,12 @@ const Container = styled(RowCentered)(() => [
     tw`
         z-10
         h-16
-        w-64
         overflow-hidden
         rounded-full
         relative
         shadow-inner
+        ml-1
+        md:ml-0
     `
 ])
 
