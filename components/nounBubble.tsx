@@ -19,13 +19,13 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
 
     const animationIntervalInSeconds = 2.5;
 
-    const distances: number[] = []
+    const translateLeftDistances: number[] = []
     nouns.forEach((n, i) => {
         if (i == 0) {
-            distances.push(0)
+            translateLeftDistances.push(0)
         } else {
             const diffFromBefore = nouns[i].width - nouns[i-1].width
-            distances.push(distances[i-1] - (16-(diffFromBefore/2)))
+            translateLeftDistances.push(translateLeftDistances[i-1] - (16-(diffFromBefore/2)))
         }
     })
 
@@ -59,7 +59,7 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
                     translateX: 0
                 }}
                 animate={{
-                    translateX: distances.map((d) => `${d}rem`)
+                    translateX: translateLeftDistances.map((d) => `${d}rem`)
                 }}
                 transition={{
                     repeat: Infinity,
