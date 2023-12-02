@@ -29,10 +29,6 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
         }
     })
 
-
-
-    console.log(distances)
-
     return (
         <Container
             initial={{
