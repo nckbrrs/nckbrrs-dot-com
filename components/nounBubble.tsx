@@ -77,19 +77,18 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
 const Container = styled(RowCentered)(() => [
     tw`
         z-10
-        h-16
+        h-14 lg:h-16
         overflow-hidden
         rounded-full
         relative
         shadow-inner
-        ml-1
-        md:ml-0
     `
 ])
 
 const Noun = styled.p(() => [
     tw`
-        text-4xl
+        pt-0.5 lg:pt-0
+        text-[2rem] lg:text-4xl
         font-bold
         text-bone
         w-64

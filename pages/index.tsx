@@ -94,10 +94,10 @@ const IsAText = styled.p(() => [
 ])
 
 const NounBubbleContainer = styled.span(() => [
+  // honestly not sure why i need scale-100 but it breaks if i don't have it
   tw`
-    scale-[0.8] lg:scale-100
-    -translate-x-3 lg:translate-x-0
-    lg:px-3
+    scale-100
+    mx-3
   `
 ])
 
@@ -105,7 +105,6 @@ const LivingWorkingText = styled.p(() => [
   tw`
     font-medium
     leading-[3rem] lg:leading-[4rem]
-    -translate-y-2 lg:translate-y-0 
     lg:whitespace-nowrap
   `
 ])
