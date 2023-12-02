@@ -138,7 +138,7 @@ const MenuLinksCol = styled(Col)(() => [
         flex-wrap
         items-center
         justify-center
-        space-y-1
+        space-y-0 lg:space-y-1
         translate-y-2
     `
 ])
@@ -174,7 +174,7 @@ const LinkText = styled.p(() => [
     tw`
         w-full
         px-2
-        text-3xl md:text-5xl lg:text-7xl
+        text-4xl md:text-5xl lg:text-7xl
         font-bold
         italic 
         text-left
