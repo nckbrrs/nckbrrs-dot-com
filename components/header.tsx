@@ -57,17 +57,17 @@ const Header: React.FC = () => {
         {
             linkType: 'external',
             text: 'apple music',
-            href: 'https://music.apple.com/us/artist/ephemera/1668905267'
+            href: 'https://music.apple.com/profile/nckbrrs'
+        },
+        {
+            linkType: 'external',
+            text: 'threads',
+            href: 'https://threads.net/@nckbrrs'
         },
         {
             linkType: 'external',
             text: 'spotify',
             href: 'https://open.spotify.com/artist/6P5suR8XUGZzqYyX5WpsCY'
-        },
-        {
-            linkType: 'external',
-            text: 'twitter',
-            href: 'https://www.twitter.com/nckbrrs'
         },
         {
             linkType: 'external',
