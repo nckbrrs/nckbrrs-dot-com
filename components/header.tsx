@@ -66,11 +66,6 @@ const Header: React.FC = () => {
         },
         {
             linkType: 'external',
-            text: 'spotify',
-            href: 'https://open.spotify.com/artist/6P5suR8XUGZzqYyX5WpsCY'
-        },
-        {
-            linkType: 'external',
             text: 'instagram',
             href: 'https://www.instagram.com/nckbrrs'
         },
