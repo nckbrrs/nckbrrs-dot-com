@@ -30,7 +30,7 @@ const hamburgerBarHeight = 4;
 const hamburgerBarHeightPx = `${hamburgerBarHeight}px`
 
 const HamburgerBar = styled(MotionRow)`
-    ${tw`rounded-sm h-[${hamburgerBarHeightPx}] bg-black`}
+    ${tw`rounded-none h-[${hamburgerBarHeightPx}] bg-black`}
 `
 
 const hamburgerBarMotionVariants = {
