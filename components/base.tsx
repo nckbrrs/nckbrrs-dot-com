@@ -21,3 +21,17 @@ export const RowCentered = styled(Row)(() => [
         items-center
     `
 ])
+
+export const MotionRow = styled(motion.div)(() => [
+    tw`
+        flex
+        flex-row
+    `
+])
+
+export const MotionCol = styled(motion.div)(() => [
+    tw`
+        flex
+        flex-col
+    `
+])

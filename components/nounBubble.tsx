@@ -68,7 +68,7 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
                     delay: 1
                 }}
             >
-                {nouns.map((n) => <Noun key={n.text}>{n.text}</Noun>)}
+                {nouns.map((n, i) => <Noun key={i + "-" + n.text}>{n.text}</Noun>)}
             </Row>
         </Container>
     )

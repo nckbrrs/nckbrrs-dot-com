@@ -1,4 +1,3 @@
-import Logo from './icons/Logo';
 import { Col, Row } from './base';
 import 'twin.macro';
 import Link from 'next/link';
@@ -6,52 +5,13 @@ import { useState } from 'react';
 import tw, { styled } from 'twin.macro';
 import { AnimatePresence } from 'framer-motion';
 import ResumePdf from '../public/resume.pdf';
+import Hamburger from './hamburger';
 
 const Header: React.FC = () => {
-    const [menuState, setMenuState] = useState<'open' | 'closed'>('closed');
-    const sessionStorage = (typeof window !== 'undefined') ? window.sessionStorage : null;
-
-    const toggleMenu = () => {
-        setMenuState(menuState === 'closed' ? 'open' : 'closed');
+    const [hamburgerState, setHamburgerState] = useState<'open' | 'closed'>('closed');
+    const onClickHamburger = () => {
+        setHamburgerState(hamburgerState === 'closed' ? 'open' : 'closed');
     }
-
-    const onClickLogo = () => {
-        toggleMenu();
-        if (sessionStorage) {
-            sessionStorage.setItem('hasOpenedMenuAtLeastOnce', 'true')
-        }
-    }
-
-    const AnimatedLogo: JSX.Element = (
-        <LogoContainer
-            animate={{
-                rotate: ['0deg', '-8deg', '8deg', '-8deg', '8deg', '-8deg', '8deg', '0deg'],
-                scale: [1, 1.333, 1]
-            }}
-            transition={{
-                repeat: Infinity,
-                duration: 0.8,
-                ease: 'easeInOut',
-                delay: 1,
-                repeatDelay: 4
-            }}
-            onClick={onClickLogo}
-        >
-            <LogoWrapper>
-                <Logo/>
-            </LogoWrapper>
-        </LogoContainer>
-    );
-
-    const NonAnimatedLogo: JSX.Element = (
-        <LogoContainer onClick={onClickLogo}>
-            <LogoWrapper>
-                <Logo/>
-            </LogoWrapper>
-        </LogoContainer>
-    )
-
-    const hasOpenedMenuAtLeastOnce: boolean = Boolean(sessionStorage?.getItem('hasOpenedMenuAtLeastOnce') || false);
 
     const links: {linkType: 'external' | 'local', text: string, href: string}[] = [
         {
@@ -98,9 +58,11 @@ const Header: React.FC = () => {
 
     return (
         <Container>
-            {hasOpenedMenuAtLeastOnce ? <>{NonAnimatedLogo}</> : <>{AnimatedLogo}</>}
+            <HamburgerContainer onClick={onClickHamburger}>
+                <Hamburger state={hamburgerState} onClick={onClickHamburger}/>
+            </HamburgerContainer>
             <AnimatePresence>
-                {menuState === 'open' && 
+                {hamburgerState === 'open' && 
                     <MenuContainer 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -146,21 +108,14 @@ const Container = styled(Row)(() => [
     `
 ])
 
-const LogoContainer = styled(Col)(() => [
+const HamburgerContainer = styled(Col)(() => [
     tw`
         z-20
-        w-12 xl:w-16
-        h-12 xl:h-16
-        drop-shadow-sm
+        w-10
+        h-10
         cursor-pointer
-        fill-black
         dark:fill-bone
-    `
-])
-
-const LogoWrapper = styled.span(() => [
-    tw`
-        duration-100
+        duration-75
         hover:scale-110
     `
 ])

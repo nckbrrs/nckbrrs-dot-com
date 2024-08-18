@@ -60,7 +60,7 @@ const NameRow = styled(Row)(() => [
 const NameText = styled.p(() => [
   tw`
     -translate-x-2
-    font-medium tracking-tighter
+    font-bold tracking-tighter
     leading-[7rem] lg:leading-[10rem]
     text-[8rem] lg:text-[12rem] 
     w-1/2 md:w-full
