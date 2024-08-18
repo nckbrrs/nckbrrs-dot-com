@@ -45,7 +45,7 @@ const hamburgerBarMotionVariants = {
     middle: {
         closed: {},
         open: {
-            translateX: -100,
+            translateX: 100,
             opacity: 0
         }
     },
