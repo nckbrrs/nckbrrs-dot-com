@@ -14,11 +14,11 @@ const Header: React.FC = () => {
     }
 
     const links: {linkType: 'external' | 'local', text: string, href: string}[] = [
-        {
+        /*{
             linkType: 'external',
-            text: 'apple music',
+            text: 'playlists',
             href: 'https://music.apple.com/profile/nckbrrs'
-        },
+        },*/
         {
             linkType: 'external',
             text: 'threads',
