@@ -22,7 +22,7 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
     const translateLeftDistances: number[] = []
     nouns.forEach((n, i) => {
         if (i == 0) {
-            translateLeftDistances.push(0)
+            translateLeftDistances.push(-3)
         } else {
             const diffFromBefore = nouns[i].width - nouns[i-1].width
             translateLeftDistances.push(translateLeftDistances[i-1] - (16-(diffFromBefore/2)))
