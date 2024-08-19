@@ -8,7 +8,6 @@ interface HamburgerProps {
 }
 
 const Hamburger: React.FC<HamburgerProps> = ({state, onClick}) => {
-    console.log(state=="open");
     return (
         <Container animate={state} onClick={onClick}>
             <HamburgerBar variants={hamburgerBarMotionVariants.top}/>
@@ -26,11 +25,11 @@ const Container = styled(MotionCol)(() => [
     `
 ])
 
-const hamburgerBarHeight = 4;
-const hamburgerBarHeightPx = `${hamburgerBarHeight}px`
+const hamburgerBarHeight = 1; // in rem
+const hamburgerBarHeightStr = `${hamburgerBarHeight}`
 
 const HamburgerBar = styled(MotionRow)`
-    ${tw`rounded-none h-[${hamburgerBarHeightPx}] bg-black`}
+    ${tw`rounded-none h-${hamburgerBarHeightStr} bg-black dark:bg-bone`}
 `
 
 const hamburgerBarMotionVariants = {
