@@ -21,15 +21,17 @@ const Container = styled(MotionCol)(() => [
     tw`
        z-20
        h-full
+       w-full
        justify-evenly
     `
 ])
 
-const hamburgerBarHeight = 1; // in rem
+const hamburgerBarHeight = 10; // percentage of parent container
 const hamburgerBarHeightStr = `${hamburgerBarHeight}`
 
 const HamburgerBar = styled(MotionRow)`
-    ${tw`rounded-none h-${hamburgerBarHeightStr} bg-black dark:bg-bone`}
+    ${tw`bg-black dark:bg-bone`}
+    ${tw`h-[${hamburgerBarHeightStr}% ]`}
 `
 
 const hamburgerBarMotionVariants = {
@@ -37,7 +39,7 @@ const hamburgerBarMotionVariants = {
         closed: {},
         open: {
             rotate: 45,
-            translateY: 11.111,
+            translateY: `${(((100 - (3*hamburgerBarHeight))/4)+hamburgerBarHeight)*10}%`,
             scale: -0.75
         }
     },
@@ -52,10 +54,12 @@ const hamburgerBarMotionVariants = {
         closed: {},
         open: {
             rotate: -45,
-            translateY: -11.111,
+            translateY: `-${(((100 - (3*hamburgerBarHeight))/4)+hamburgerBarHeight)*10}%`,
             scale: -0.75
         }
     }
 }
+
+
 
 export default Hamburger;

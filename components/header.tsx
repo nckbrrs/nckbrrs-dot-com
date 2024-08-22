@@ -105,6 +105,7 @@ const Container = styled(Row)(() => [
         justify-end
         items-center
         pt-6 sm:pt-10 md:pt-12 lg:pt-20
+        overflow-hidden
     `
 ])
 
@@ -139,8 +140,8 @@ const LinkText = styled.p(() => [
 
 const MenuContainer = styled(Row)(() => [
     tw`
-        w-screen
-        h-screen
+        w-full
+        h-full
         space-y-2
         bg-bone
         dark:bg-black
