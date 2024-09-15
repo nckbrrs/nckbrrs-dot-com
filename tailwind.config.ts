@@ -25,6 +25,12 @@ const config: Config = {
 				wider: '.05em',
 				widest: '.1em',
 			},
+			height: {
+				screen:'calc(var(--vh) * 100)',
+			},
+			minHeight: {
+				screen:'calc(var(--vh) * 100)',
+			}
   		}
   	},
   	plugins: [require("tailwindcss-animate")],
