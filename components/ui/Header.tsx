@@ -55,27 +55,27 @@ const Header: React.FC = () => {
                 <Hamburger state={hamburgerState} onClick={onClickHamburger}/>
             </HamburgerContainer>
             <AnimatePresence>
-            {hamburgerState === 'open' && 
-                <FullScreenMenuContainer
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                >
-                    <MenuLinksCol>
-                        {links.map((l) => 
-                            l.linkType === 'external' ? (
-                                <a href={l.href} target="_blank" rel="noopener noreferrer">
-                                    <LinkText>{l.text.toUpperCase()}</LinkText>
-                                </a>
-                            ) : (
-                                <Link href={`${l.href}`} >
-                                    <LinkText>{l.text.toUpperCase()}</LinkText>
-                                </Link>
-                            )
-                        )}
-                    </MenuLinksCol>
-                </FullScreenMenuContainer>
-            }
+                {hamburgerState === 'open' && 
+                    <FullScreenMenuContainer
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        <MenuLinksCol>
+                            {links.map((l) => 
+                                l.linkType === 'external' ? (
+                                    <a href={l.href} target="_blank" rel="noopener noreferrer">
+                                        <LinkText>{l.text.toUpperCase()}</LinkText>
+                                    </a>
+                                ) : (
+                                    <Link href={`${l.href}`} >
+                                        <LinkText>{l.text.toUpperCase()}</LinkText>
+                                    </Link>
+                                )
+                            )}
+                        </MenuLinksCol>
+                    </FullScreenMenuContainer>
+                }
             </AnimatePresence>
         </Container>
     )
