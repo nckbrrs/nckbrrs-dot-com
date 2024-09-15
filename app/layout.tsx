@@ -41,7 +41,7 @@ const AppContainer = (props: {children: React.ReactNode}) => (
     className={`
       flex
       flex-col
-      min-h-screen
+      min-h-screen h-[100vh]
       w-screen [&>*]:max-w-[2000px]
       justify-between
       items-center
