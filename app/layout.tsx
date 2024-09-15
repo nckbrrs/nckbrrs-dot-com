@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
-import tailwindConfig from "@/tailwind.config";
-import resolveConfig from 'tailwindcss/resolveConfig'
 
 export const metadata: Metadata = {
   title: "Nick Barrs",
