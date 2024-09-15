@@ -6,6 +6,10 @@ import Header from "@/components/ui/Header";
 export const metadata: Metadata = {
   title: "Nick Barrs",
   description: "Nick Barrs's personal website",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fbf6f1" },
+    { media: "(prefers-color-scheme: dark)", color: "#212121" },
+  ]
 };
 
 export const viewport: Viewport = {
