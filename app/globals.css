@@ -7,7 +7,7 @@
   --black: #212121
 }
 
-body {
+html, body {
   background: var(--bone);
 }
 
@@ -27,7 +27,7 @@ a {
     color-scheme: dark;
   }
 
-  body {
+  html, body {
     background: var(--black);
   }
 }
