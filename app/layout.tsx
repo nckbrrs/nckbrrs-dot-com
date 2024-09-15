@@ -1,12 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
 
 export const metadata: Metadata = {
   title: "Nick Barrs",
-  description: "My personal website",
+  description: "Nick Barrs's personal website",
 };
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fbf6f1' },
+    { media: '(prefers-color-scheme: dark)', color: '#212121' },
+  ],
+}
 
 export default function RootLayout({
   children,
