@@ -1,8 +1,8 @@
 "use client"
 
-import tailwindConfig from "@/tailwind.config";
 import { HTMLMotionProps, motion } from "framer-motion";
 import { useMemo } from "react";
+import tailwindConfig from "@/tailwind.config";
 import resolveConfig from 'tailwindcss/resolveConfig'
 
 const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns}) => {

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/ui/Footer";
 import Header from "@/components/ui/Header";
+import tailwindConfig from "@/tailwind.config";
+import resolveConfig from 'tailwindcss/resolveConfig'
 
 export const metadata: Metadata = {
   title: "Nick Barrs",
@@ -18,6 +20,8 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8"/>
         <meta name="theme-color" content="#fbf6f1"/>
+        <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes, viewport-fit=cover"/>
       </head>
       <body className={`antialiased`}>
         <AppContainer>
