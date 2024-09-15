@@ -26,12 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta charSet="utf-8"/>
-        <meta name="theme-color" content="#fbf6f1"/>
-        <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes, viewport-fit=cover"/>
-      </head>
+      <head/>
       <body className={`antialiased`}>
         <AppContainer>
           <Header/>
