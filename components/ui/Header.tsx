@@ -11,6 +11,14 @@ const Header: React.FC = () => {
         setHamburgerState(hamburgerState === 'closed' ? 'open' : 'closed');
     }
 
+    if (typeof window !== 'undefined') {
+        document.onkeydown = ((event) => {
+            if (event.key === "Escape") {
+                setHamburgerState('closed')
+            }
+        })
+    }
+
     const links: {linkType: 'external' | 'local', text: string, href: string}[] = [
         {
             linkType: 'external',

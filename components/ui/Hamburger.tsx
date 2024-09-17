@@ -42,7 +42,6 @@ const HamburgerBar = (props: HTMLMotionProps<"div">) => (
             w-full
             dark:bg-bone
             h-[10%]
-            h-${4} // TODO work on this
         `}
     >
         {props.children}

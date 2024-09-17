@@ -27,6 +27,7 @@ const FooterText = (props: {children: React.ReactNode}) => (
         className={`
             text-[0.75em]
             opacity-75
+            tracking-wider
         `}
     >
         {props.children}
