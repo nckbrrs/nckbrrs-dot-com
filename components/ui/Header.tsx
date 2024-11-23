@@ -1,11 +1,11 @@
 "use client"
-import { ComponentProps, HTMLAttributes, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ResumePDF from '../../public/resume.pdf'
 import Hamburger from './Hamburger';
-import { AnimatePresence, AnimatePresenceProps, HTMLMotionProps, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-const Header: React.FC = () => {
+export default function Header() {
     const [hamburgerState, setHamburgerState] = useState<'open' | 'closed'>('closed');
     const onClickHamburger = () => {
         setHamburgerState(hamburgerState === 'closed' ? 'open' : 'closed');
@@ -18,6 +18,26 @@ const Header: React.FC = () => {
             }
         })
     }
+
+    useEffect(() => {
+        // only execute all the code below in client side
+        if (typeof window !== 'undefined') {
+          // Handler to call on window resize
+          const handleResize = () => {
+            let vh = window.innerHeight * 0.01
+            document.documentElement.style.setProperty('--vh', `${vh}px`)
+          }
+    
+          // Add event listener
+          window.addEventListener("resize", handleResize);
+    
+          // Call handler right away so state gets updated with initial window size
+          handleResize();
+    
+          // Remove event listener on cleanup
+          return () => window.removeEventListener("resize", handleResize);
+        }
+      }, [])
 
     const links: {linkType: 'external' | 'local', text: string, href: string}[] = [
         {
@@ -155,5 +175,3 @@ const linkTextStyling = () => `
     hover:!blur-0
     hover:translate-x-3
 `
-
-export default Header;

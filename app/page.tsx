@@ -1,29 +1,7 @@
-"use client"
 import NounBubble from "@/components/ui/NounBubble";
-import { useEffect, useMemo } from "react";
 
 const Home: React.FC = () => {
-  useEffect(() => {
-    // only execute all the code below in client side
-    if (typeof window !== 'undefined') {
-      // Handler to call on window resize
-      const handleResize = () => {
-        let vh = window.innerHeight * 0.01
-        document.documentElement.style.setProperty('--vh', `${vh}px`)
-      }
-
-      // Add event listener
-      window.addEventListener("resize", handleResize);
-
-      // Call handler right away so state gets updated with initial window size
-      handleResize();
-
-      // Remove event listener on cleanup
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, [])
-
-  const nounsForBubble: {text: string, width: number}[] = useMemo(() => [
+  const nounsForBubble: {text: string, width: number}[] = [
     {text: 'human',width: 10},
     {text: 'programmer', width: 16},
     {text: 'creative',width: 12},
@@ -36,7 +14,7 @@ const Home: React.FC = () => {
     {text: 'enneagram 9',width: 16},
     {text: 'lego builder',width: 15},
     {text: 'human',width: 10},
-  ], []);
+  ];
 
   return (
     <div className={containerStyling()}>

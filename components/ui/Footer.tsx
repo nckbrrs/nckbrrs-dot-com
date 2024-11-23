@@ -1,10 +1,12 @@
-const Footer: React.FC = () => (
-    <div className={containerStyling()}>
-        <p className={footerTextStyling()}>
-            made with&nbsp;❤️&nbsp;by me
-        </p>
-    </div>
-)
+export default function Footer() {
+    return (
+        <div className={containerStyling()}>
+            <p className={footerTextStyling()}>
+                made with&nbsp;❤️&nbsp;by me
+            </p>
+        </div>
+    )
+}
 
 const containerStyling = () => `
     flex
@@ -21,5 +23,3 @@ const footerTextStyling = () => `
     opacity-20
     tracking-wider
 `
-
-export default Footer;

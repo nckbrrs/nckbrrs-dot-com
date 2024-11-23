@@ -1,14 +1,18 @@
 "use client"
-
-import { HTMLMotionProps, motion } from "framer-motion";
-import { useMemo } from "react";
+import { motion } from "framer-motion";
 import tailwindConfig from "@/tailwind.config";
 import resolveConfig from 'tailwindcss/resolveConfig'
 
-const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns}) => {
+interface NounBubbleProps {
+    nouns: {
+        text: string
+        width: number
+    }[]
+}
+export default function NounBubble({nouns}: NounBubbleProps) {
     const twConfig = resolveConfig(tailwindConfig)
 
-    const bgColors: string[] = useMemo(() => [
+    const bgColors: string[] = [
         twConfig.theme.colors.cyan[400],
         twConfig.theme.colors.red[500],
         twConfig.theme.colors.orange[500],
@@ -20,7 +24,7 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
         twConfig.theme.colors.purple[500],
         twConfig.theme.colors.red[500],
         twConfig.theme.colors.cyan[400]
-    ], []);
+    ];
 
     const animationIntervalInSeconds = 2.5;
     const animationEase = 'anticipate';
@@ -110,5 +114,3 @@ const nounStyling = () => `
     text-center
     drop-shadow-sm
 `
-
-export default NounBubble;

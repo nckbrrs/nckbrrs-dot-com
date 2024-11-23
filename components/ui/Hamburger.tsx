@@ -1,11 +1,11 @@
-import { HTMLMotionProps, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface HamburgerProps {
     state: 'open' | 'closed';
     onClick: () => void;
 }
 
-const Hamburger: React.FC<HamburgerProps> = ({state, onClick}) => {
+export default function Hamburger({state, onClick}: HamburgerProps) {
     return (
         <motion.div className={hamburgerContainerStyling()} animate={state} onClick={onClick}>
             <motion.div className={hamburgerBarStyling()} variants={hamburgerBarMotionVariants.top}/>
@@ -57,5 +57,3 @@ const hamburgerBarMotionVariants = {
         }
     }
 }
-
-export default Hamburger;
