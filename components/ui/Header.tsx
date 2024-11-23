@@ -63,131 +63,97 @@ const Header: React.FC = () => {
     ]
 
     return (
-        <Container>
-            <HamburgerContainer onClick={onClickHamburger}>
+        <div className={containerStyling()}>
+            <div className={hamburgerContainerStyling()} onClick={onClickHamburger}>
                 <Hamburger state={hamburgerState} onClick={onClickHamburger}/>
-            </HamburgerContainer>
-            <AnimatePresence>
+            </div>
+            <motion.div>
                 {hamburgerState === 'open' && 
-                    <FullScreenMenuContainer
+                    <motion.div className={fullScreenMenuContainerStyling()}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        <MenuLinksCol>
+                        <div className={menuLinksColStyling()}>
                             {links.map((l) => 
                                 l.linkType === 'external' ? (
                                     <a href={l.href} target="_blank" rel="noopener noreferrer">
-                                        <LinkText>{l.text.toUpperCase()}</LinkText>
+                                        <p className={linkTextStyling()}>{l.text.toUpperCase()}</p>
                                     </a>
                                 ) : (
                                     <Link href={`${l.href}`} >
-                                        <LinkText>{l.text.toUpperCase()}</LinkText>
+                                        <p className={linkTextStyling()}>{l.text.toUpperCase()}</p>
                                     </Link>
                                 )
                             )}
-                        </MenuLinksCol>
-                    </FullScreenMenuContainer>
+                        </div>
+                    </motion.div>
                 }
-            </AnimatePresence>
-        </Container>
+            </motion.div>
+        </div>
     )
 }
 
-const Container = (props: {children: React.ReactNode}) => (
-    <div
-        className={`
-            w-full
-            flex
-            flex-row
-            justify-end
-            items-center
-            pt-6 sm:pt-10 md:pt-12 lg:pt-20
-            overflow-hidden
-        `}
-    >
-        {props.children}
-    </div>
-)
+const containerStyling = () => `
+    w-full
+    flex
+    flex-row
+    justify-end
+    items-center
+    pt-6 sm:pt-10 md:pt-12 lg:pt-20
+    overflow-hidden
+`
 
-const HamburgerContainer = (props: {children: React.ReactNode}  & {onClick: () => void}) => (
-    <div
-        onClick={props.onClick}
-        className={`
-            flex
-            flex-col
-            z-20
-            w-10
-            h-10
-            cursor-pointer
-            dark:fill-bone
-            duration-75
-            hover:scale-110
-        `}
-    >
-        {props.children}
-</div>
-)
+const hamburgerContainerStyling = () => `
+    flex
+    flex-col
+    z-20
+    w-10
+    h-10
+    cursor-pointer
+    dark:fill-bone
+    duration-75
+    hover:scale-110
+`
 
-const FullScreenMenuContainer = (props: HTMLMotionProps<"div">) => (
-    <motion.div 
-        initial={props.initial}
-        animate={props.animate}
-        exit={props.exit}
-        className={`
-            flex flex-row 
-            w-full 
-            h-full 
-            space-y-2 
-            bg-bone dark:bg-black 
-            left-0 
-            top-0 
-            z-10 
-            absolute 
-            justify-center 
-            items-center`
-        }
-    >
-        {props.children}
-    </motion.div >
-)
+const fullScreenMenuContainerStyling = () => `
+    flex flex-row 
+    w-full 
+    h-full 
+    space-y-2 
+    bg-bone dark:bg-black 
+    left-0 
+    top-0 
+    z-10 
+    absolute 
+    justify-center 
+    items-center
+`
 
-const MenuLinksCol = (props: {children: React.ReactNode}) => (
-    <div 
-        className={`
-            flex
-            flex-col
-            flex-wrap
-            group
-            items-start
-            justify-center
-            space-y-0 lg:space-y-1
-            translate-y-2`
-        }
-    >
-        {props.children}
-    </div>
-)
-
-const LinkText = (props: {children: React.ReactNode}) => (
-    <p 
-        className={`
-            w-full
-            px-2
-            text-4xl md:text-5xl lg:text-7xl
-            font-bold
-            italic 
-            text-left
-            duration-200
-            group-hover:opacity-25
-            group-hover:blur-[2px]
-            hover:!opacity-100
-            hover:!blur-0
-            hover:translate-x-3`
-        }
-    >
-        {props.children}
-    </p>
-)
+const menuLinksColStyling = () => `
+    flex
+    flex-col
+    flex-wrap
+    group
+    items-start
+    justify-center
+    space-y-0 lg:space-y-1
+    translate-y-2 
+`
+ 
+const linkTextStyling = () => `
+    w-full
+    px-2
+    text-4xl md:text-5xl lg:text-7xl
+    font-bold
+    italic 
+    text-left
+    duration-200
+    group-hover:opacity-25
+    group-hover:blur-[2px]
+    hover:!opacity-100
+    hover:!blur-0
+    hover:translate-x-3
+`
 
 export default Header;

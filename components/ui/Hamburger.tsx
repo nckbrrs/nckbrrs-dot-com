@@ -7,46 +7,30 @@ interface HamburgerProps {
 
 const Hamburger: React.FC<HamburgerProps> = ({state, onClick}) => {
     return (
-        <HamburgerContainer animate={state} onClick={onClick}>
-            <HamburgerBar variants={hamburgerBarMotionVariants.top}/>
-            <HamburgerBar variants={hamburgerBarMotionVariants.middle}/>
-            <HamburgerBar variants={hamburgerBarMotionVariants.bottom}/>
-        </HamburgerContainer>
+        <motion.div className={hamburgerContainerStyling()} animate={state} onClick={onClick}>
+            <motion.div className={hamburgerBarStyling()} variants={hamburgerBarMotionVariants.top}/>
+            <motion.div className={hamburgerBarStyling()} variants={hamburgerBarMotionVariants.middle}/>
+            <motion.div className={hamburgerBarStyling()} variants={hamburgerBarMotionVariants.bottom}/>
+        </motion.div>
     )
 }
 
-const HamburgerContainer = (props: HTMLMotionProps<"div">) => (
-    <motion.div 
-        animate={props.animate}
-        onClick={props.onClick}
-        className={`
-            flex
-            flex-col
-            z-20
-            h-full
-            w-full
-            justify-evenly`
-        }
-    >
-        {props.children}
-    </motion.div>
-)
-
-const HamburgerBar = (props: HTMLMotionProps<"div">) => (
-    <motion.div
-        variants={props.variants}
-        className={`
-            flex
-            flex-row
-            bg-black
-            w-full
-            dark:bg-bone
-            h-[10%]
-        `}
-    >
-        {props.children}
-    </motion.div>
-)
+const hamburgerContainerStyling = () => `
+    flex
+    flex-col
+    z-20
+    h-full
+    w-full
+    justify-evenly
+`
+const hamburgerBarStyling = () => `
+    flex
+    flex-row
+    bg-black
+    w-full
+    dark:bg-bone
+    h-[10%]
+`
 
 const hamburgerBarMotionVariants = {
     top: {

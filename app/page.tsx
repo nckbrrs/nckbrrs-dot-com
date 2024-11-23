@@ -39,135 +39,83 @@ const Home: React.FC = () => {
   ], []);
 
   return (
-    <Container>
-      <NameRow>
-        <NameText>
+    <div className={containerStyling()}>
+      <div className={nameRowStyling()}>
+        <p className={nameTextStyling()}>
           nick <span className="tracking-tight">barrs</span>
-        </NameText>
-      </NameRow>
-      <DescriptionContainer>
-        <IsANounContainer>
-          <IsAText>
+        </p>
+      </div>
+      <div className={descriptionContainerStyling()}>
+        <div className={isANounContainerStyling()}>
+          <p className={isATextStyling()}>
             is a 
-          </IsAText>
-          <NounBubbleContainer>
+          </p>
+          <div className={nounBubbleContainerStyling()}>
             <NounBubble nouns={nounsForBubble}/>
-          </NounBubbleContainer>
-        </IsANounContainer>
-        <LivingWorkingText>
+          </div>
+        </div>
+        <p className={livingWorkingTextStyling()}>
           living and working in New York City.
-        </LivingWorkingText>
-      </DescriptionContainer>
-    </Container>
+        </p>
+      </div>
+    </div>
   )
 }
 
-const Container = (props: {children: React.ReactNode}) => (
-  <div
-    className={`
-      flex
-      flex-col
-      items-start
-      justify-center
-      h-full
-      text-black
-      dark:text-bone
-    `}
-  >
-    {props.children}
-  </div>
-)
+const containerStyling = () => `
+  flex
+  flex-col
+  items-start
+  justify-center
+  h-full
+  text-black
+  dark:text-bone 
+`
+const nameRowStyling = () => `
+  flex
+  flex-row
+  pb-3 lg:pb-4
+`
 
-const NameRow = (props: {children: React.ReactNode}) => (
-  <div
-    className={`
-      flex
-      flex-row
-      pb-3 lg:pb-4
-    `}
-  >
-    {props.children}
-  </div>
-)
+const nameTextStyling = () => `
+  -translate-x-2
+  font-bold
+  tracking-tighter
+  leading-[7rem] lg:leading-[10rem]
+  text-[8rem] lg:text-[12rem]
+  w-1/2 md:w-full
+  duration-100
+`
 
-const NameText = (props: {children: React.ReactNode}) => (
-  <p
-    className={`
-      -translate-x-2
-      font-bold
-      tracking-tighter
-      leading-[7rem] lg:leading-[10rem]
-      text-[8rem] lg:text-[12rem]
-      w-1/2 md:w-full
-      duration-100
-    `}
-  >
-    {props.children}
-  </p>
-)
+const descriptionContainerStyling = () => `
+  flex
+  flex-col
+  items-start lg:items-center
+  tracking-tight
+  lg:flex-row
+  text-3xl lg:text-4xl
+  max-w-xs lg:max-w-full
+  duration-100
+`
+const isANounContainerStyling = () => `
+  flex
+  flex-row
+  w-fit
+  items-center
+`
+const isATextStyling = () => `
+  font-medium
+  whitespace-nowrap
+`
 
-const DescriptionContainer = (props: {children: React.ReactNode}) => (
-  <div
-    className={`
-      flex
-      flex-col
-      items-start lg:items-center
-      tracking-tight
-      lg:flex-row
-      text-3xl lg:text-4xl
-      max-w-xs lg:max-w-full
-      duration-100
-    `}
-  >
-    {props.children}
-  </div>
-)
+const nounBubbleContainerStyling = () => `
+  scale-100 mx-3
+`
 
-const IsANounContainer = (props: {children: React.ReactNode}) => (
-  <div
-    className={`
-      flex
-      flex-row
-      w-fit
-      items-center
-    `}
-  >
-    {props.children}
-  </div>
-)
-
-const IsAText = (props: {children: React.ReactNode}) => (
-  <p
-    className={`
-      font-medium
-      whitespace-nowrap
-    `}
-  >
-    {props.children}
-  </p>
-)
-
-const NounBubbleContainer = (props: {children: React.ReactNode}) => (
-  <div
-    className={`
-      scale-100 mx-3
-    `}
-  >
-    {props.children}
-  </div>
-)
-
-const LivingWorkingText = (props: {children: React.ReactNode}) => (
-  <p
-    className={`
-      font-medium
-      leading-[3rem] lg:leading-[4rem]
-      lg:whitespace-nowrap
-    `}
-  >
-    {props.children}
-  </p>
-)
-
+const livingWorkingTextStyling = () => `
+  font-medium
+  leading-[3rem] lg:leading-[4rem]
+  lg:whitespace-nowrap
+`
 
 export default Home;

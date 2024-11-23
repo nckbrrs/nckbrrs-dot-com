@@ -24,44 +24,31 @@ export default function RootLayout({
     <html lang="en">
       <head/>
       <body className={`antialiased`}>
-        <AppContainer>
+        <div className={appContainerStyling()}>
           <Header/>
-          <ContentContainer>
+          <div className={contentContainerStyling()}>
             {children}
-          </ContentContainer>
+          </div>
           <Footer/>
-        </AppContainer>
+        </div>
       </body>
     </html>
   );
 }
 
-const AppContainer = (props: {children: React.ReactNode}) => (
-  <div
-    className={`
-      flex
-      flex-col
-      min-h-screen
-      w-screen [&>*]:max-w-[2000px]
-      justify-between
-      items-center
-      px-5 md:px-16
-      animate-fadeIn
-    `}
-  >
-    {props.children}
-  </div>
-)
-
-const ContentContainer = (props: {children: React.ReactNode}) => (
-  <div 
-    className={`
-      flex
-      flex-col
-      w-full
-      justify-start
-    `}
-  >
-    {props.children}
-  </div>
-)
+const appContainerStyling = () => `
+  flex
+  flex-col
+  min-h-screen
+  w-screen [&>*]:max-w-[2000px]
+  justify-between
+  items-center
+  px-5 md:px-16
+  animate-fadeIn
+`
+const contentContainerStyling = () => `
+  flex
+  flex-col
+  w-full
+  justify-start
+`

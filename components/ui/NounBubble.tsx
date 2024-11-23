@@ -36,7 +36,7 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
     })
 
     return (
-        <Container
+        <motion.div className={containerStyling()}
             initial={{
                 backgroundColor: bgColors[0],
                 width: `${nouns[0].width}rem`
@@ -60,7 +60,7 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
                 }
             }}
         >
-            <Bubble
+            <motion.div className={bubbleStyling()}
                 initial={{
                     translateX: `${translateLeftDistances[0]}rem`
                 }}
@@ -74,65 +74,41 @@ const NounBubble: React.FC<{nouns: {text: string; width: number; }[]}> = ({nouns
                     delay: 1
                 }}
             >
-                {nouns.map((n, i) => <Noun key={i + "-" + n.text}>{n.text}</Noun>)}
-            </Bubble>
-        </Container>
+                {nouns.map((n, i) => <p className={nounStyling()} key={i + "-" + n.text}>{n.text}</p>)}
+            </motion.div>
+        </motion.div>
     )
 }
 
-const Container = (props: HTMLMotionProps<"div">) => (
-    <motion.div
-        initial={props.initial}
-        animate={props.animate}
-        transition={props.transition}
-        className={`
-            flex
-            flex-row
-            justify-center
-            items-center
-            z-10
-            h-14
-            overflow-hidden
-            rounded-full
-            relative
-        `}
-    >
-        {props.children}
-    </motion.div>
-)
+const containerStyling = () => `
+    flex
+    flex-row
+    justify-center
+    items-center
+    z-10
+    h-14
+    overflow-hidden
+    rounded-full
+    relative
+`
 
-const Bubble = (props: HTMLMotionProps<"div">) => (
-    <motion.div
-        initial={props.initial}
-        animate={props.animate}
-        transition={props.transition}
-        className={`
-            flex
-            flex-row
-            flex-nowrap
-            h-10
-            absolute
-            left-0
-        `}
-    >
-        {props.children}
-    </motion.div>
-)
+const bubbleStyling = () => `
+    flex
+    flex-row
+    flex-nowrap
+    h-10
+    absolute
+    left-0
+`
 
-const Noun = (props: {children: React.ReactNode}) => (
-    <p 
-        className={`
-            pt-0.5 lg:pt-0
-            text-[2rem] lg:text-4xl
-            font-bold
-            text-bone
-            w-64
-            text-center
-            drop-shadow-sm
-        `}
-    >
-        {props.children}
-    </p>
-)
+const nounStyling = () => `
+    pt-0.5 lg:pt-0
+    text-[2rem] lg:text-4xl
+    font-bold
+    text-bone
+    w-64
+    text-center
+    drop-shadow-sm
+`
 
 export default NounBubble;
