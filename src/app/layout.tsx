@@ -71,5 +71,7 @@ const bodyContainerStyling = `
 	flex
 	flex-col
 	h-screen
+	w-full
+	items-center
 	bg-bone dark:bg-black
 `;
