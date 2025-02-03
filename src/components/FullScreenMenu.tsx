@@ -63,7 +63,7 @@ const menuLinksColStyling = `
     flex-col
     flex-wrap
     group
-    items-center
+    items-start
     justify-center
     space-y-0 lg:space-y-1
     translate-y-2 
@@ -71,13 +71,15 @@ const menuLinksColStyling = `
 
 const linkTextStyling = `
 	w-full
-    text-3xl md:text-5xl lg:text-7xl
+    text-4xl md:text-5xl lg:text-7xl
     font-bold
+	italic
+	text-left
     duration-200
     group-hover:opacity-25
     group-hover:blur-[2px]
 	group-hover:scale-[98%]
     hover:!opacity-100
     hover:!blur-0
-	hover:!scale-[100%]
+	hover:translate-x-3
 `;
