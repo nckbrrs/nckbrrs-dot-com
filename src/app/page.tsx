@@ -17,20 +17,20 @@ export default function Home() {
 	];
 
 	return (
-		<div className={containerStyling()}>
-			<div className={nameRowStyling()}>
-				<p className={nameTextStyling()}>
+		<div className={containerStyling}>
+			<div className={nameRowStyling}>
+				<p className={nameTextStyling}>
 					nick <span className="tracking-tight">barrs</span>
 				</p>
 			</div>
-			<div className={descriptionContainerStyling()}>
-				<div className={isANounContainerStyling()}>
-					<p className={isATextStyling()}>is a</p>
-					<div className={nounBubbleContainerStyling()}>
+			<div className={descriptionContainerStyling}>
+				<div className={isANounContainerStyling}>
+					<p className={isATextStyling}>is a</p>
+					<div className={nounBubbleContainerStyling}>
 						<NounBubble nouns={nounsForBubble} />
 					</div>
 				</div>
-				<p className={livingWorkingTextStyling()}>
+				<p className={livingWorkingTextStyling}>
 					living and working in New York City.
 				</p>
 			</div>
@@ -38,7 +38,7 @@ export default function Home() {
 	);
 }
 
-const containerStyling = () => `
+const containerStyling = `
   flex
   flex-col
   items-start
@@ -50,13 +50,13 @@ const containerStyling = () => `
   px-5 md:px-16
 `;
 
-const nameRowStyling = () => `
+const nameRowStyling = `
   flex
   flex-row
   pb-3 lg:pb-4
 `;
 
-const nameTextStyling = () => `
+const nameTextStyling = `
   -translate-x-2
   font-bold
   tracking-tighter
@@ -66,7 +66,7 @@ const nameTextStyling = () => `
   duration-100
 `;
 
-const descriptionContainerStyling = () => `
+const descriptionContainerStyling = `
   flex
   flex-col
   items-start lg:items-center
@@ -76,22 +76,22 @@ const descriptionContainerStyling = () => `
   max-w-xs lg:max-w-full
   duration-100
 `;
-const isANounContainerStyling = () => `
+const isANounContainerStyling = `
   flex
   flex-row
   w-fit
   items-center
 `;
-const isATextStyling = () => `
+const isATextStyling = `
   font-medium
   whitespace-nowrap
 `;
 
-const nounBubbleContainerStyling = () => `
+const nounBubbleContainerStyling = `
   scale-100 mx-3
 `;
 
-const livingWorkingTextStyling = () => `
+const livingWorkingTextStyling = `
   font-medium
   leading-[3rem] lg:leading-[4rem]
   lg:whitespace-nowrap

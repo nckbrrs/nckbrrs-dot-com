@@ -43,7 +43,7 @@ export default function NounBubble({ nouns }: NounBubbleProps) {
 
 	return (
 		<motion.div
-			className={containerStyling()}
+			className={containerStyling}
 			initial={{
 				backgroundColor: bgColors[0],
 				width: `${nouns[0]!.width}rem`
@@ -69,7 +69,7 @@ export default function NounBubble({ nouns }: NounBubbleProps) {
 			}}
 		>
 			<motion.div
-				className={bubbleStyling()}
+				className={bubbleStyling}
 				initial={{
 					translateX: `${translateLeftDistances[0]}rem`
 				}}
@@ -84,7 +84,7 @@ export default function NounBubble({ nouns }: NounBubbleProps) {
 				}}
 			>
 				{nouns.map((n, i) => (
-					<p className={nounStyling()} key={i + "-" + n.text}>
+					<p className={nounStyling} key={i + "-" + n.text}>
 						{n.text}
 					</p>
 				))}
@@ -93,7 +93,7 @@ export default function NounBubble({ nouns }: NounBubbleProps) {
 	);
 }
 
-const containerStyling = () => `
+const containerStyling = `
     flex
     flex-row
     justify-center
@@ -105,7 +105,7 @@ const containerStyling = () => `
     relative
 `;
 
-const bubbleStyling = () => `
+const bubbleStyling = `
     flex
     flex-row
     flex-nowrap
@@ -114,7 +114,7 @@ const bubbleStyling = () => `
     left-0
 `;
 
-const nounStyling = () => `
+const nounStyling = `
     pt-0.5 lg:pt-0
     text-[2rem] lg:text-4xl
     font-bold
