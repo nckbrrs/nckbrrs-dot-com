@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import FullScreenMenu from "./FullScreenMenu";
 import Hamburger from "./Hamburger";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import ResumePDF from "../../public/resume.pdf";
 
 export default function TopNav() {
 	const [fullScreenMenuIsOpen, setFullScreenMenuIsOpen] =
@@ -52,24 +51,44 @@ export default function TopNav() {
 		href: string;
 	}[] = [
 		{
-			linkType: "local",
-			text: "Home",
-			href: "/"
+			linkType: "external",
+			text: "bluesky",
+			href: " https://bsky.app/profile/nckbrrs.bsky.social"
 		},
 		{
-			linkType: "local",
-			text: "Portfolio",
-			href: "/portfolio"
+			linkType: "external",
+			text: "threads",
+			href: "https://threads.net/@nckbrrs"
 		},
 		{
-			linkType: "local",
-			text: "Inquiries",
-			href: "/inquiry"
+			linkType: "external",
+			text: "instagram",
+			href: "https://www.instagram.com/nckbrrs"
 		},
 		{
-			linkType: "local",
-			text: "Contact",
-			href: "/contact"
+			linkType: "external",
+			text: "youtube",
+			href: "https://www.youtube.com/@nckbrrs"
+		},
+		{
+			linkType: "external",
+			text: "github",
+			href: "https://www.github.com/nckbrrs"
+		},
+		{
+			linkType: "external",
+			text: "linkedin",
+			href: "https://www.linkedin.com/in/nckbrrs"
+		},
+		{
+			linkType: "external",
+			text: "resume",
+			href: ResumePDF
+		},
+		{
+			linkType: "external",
+			text: "email",
+			href: "mailto:hello@nickbarrs.com"
 		}
 	];
 
@@ -78,7 +97,9 @@ export default function TopNav() {
 			<FullScreenMenu
 				isOpen={fullScreenMenuIsOpen}
 				links={links}
-				onClickLink={() => closeFullScreenMenu()}
+				onClickLink={() =>
+					setTimeout(() => closeFullScreenMenu(), 1000)
+				}
 			/>
 			<div
 				id="hamburgerContainer"
@@ -97,14 +118,14 @@ export default function TopNav() {
 const hamburgerContainerStyling = `
 	flex
 	flex-col
-	w-12
-	h-12
+	w-14
+	h-14
 	cursor-pointer
 	duration-75
 	hover:scale-110
 	fixed
-	right-4 md:right-6 lg:right-8
-	top-6 md:top-10 lg:top-14
+	right-4 md:right-10 lg:right-14
+	top-4 md:top-10 lg:top-14
 	z-20
 	backdrop-blur-none
 	p-2
