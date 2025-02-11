@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import FullScreenMenu from "./FullScreenMenu";
 import Hamburger from "./Hamburger";
 import ResumePDF from "../../public/resume.pdf";
+import Logo from "./icons/Logo";
 
 export default function TopNav() {
 	const [fullScreenMenuIsOpen, setFullScreenMenuIsOpen] =
@@ -101,19 +102,46 @@ export default function TopNav() {
 					setTimeout(() => closeFullScreenMenu(), 1000)
 				}
 			/>
-			<div
-				id="hamburgerContainer"
-				className={hamburgerContainerStyling}
-				onClick={onClickHamburger}
-			>
-				<Hamburger
-					isOpen={fullScreenMenuIsOpen}
+			<div className={topNavContainerStyling}>
+				<div className={logoContainerStyling}>
+					<Logo className={logoStyling} />
+				</div>
+				<div
+					id="hamburgerContainer"
+					className={hamburgerContainerStyling}
 					onClick={onClickHamburger}
-				/>
+				>
+					<Hamburger
+						isOpen={fullScreenMenuIsOpen}
+						onClick={onClickHamburger}
+					/>
+				</div>
 			</div>
 		</>
 	);
 }
+
+const topNavContainerStyling = `
+	flex
+	flex-row
+	w-full
+	h-24 md:h-28
+	justify-between
+	items-end
+  	px-6 md:px-16
+`;
+
+const logoContainerStyling = `
+	flex
+	flex-row
+	h-12 md:h-16
+	aspect-square
+`;
+
+const logoStyling = `
+	stroke-black dark:stroke-bone
+	fill-black dark:fill-bone
+`;
 
 const hamburgerContainerStyling = `
 	flex
@@ -121,13 +149,8 @@ const hamburgerContainerStyling = `
 	w-14
 	h-14
 	cursor-pointer
-	duration-75
-	hover:scale-110
-	fixed
-	right-4 md:right-10 lg:right-14
-	top-4 md:top-10 lg:top-14
 	z-20
 	backdrop-blur-none
 	p-2
-	rounded-md
+	-mr-2
 `;

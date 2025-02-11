@@ -12,7 +12,7 @@ export default function Hamburger({ isOpen, onClick }: HamburgerProps) {
 			open: {
 				rotate: 45,
 				translateY: `${((100 - 3 * 10) / 4 + 10) * 10}%`,
-				scale: -0.75
+				scale: 0.75
 			}
 		},
 		middle: {
@@ -27,7 +27,7 @@ export default function Hamburger({ isOpen, onClick }: HamburgerProps) {
 			open: {
 				rotate: -45,
 				translateY: `-${((100 - 3 * 10) / 4 + 10) * 10}%`,
-				scale: -0.75
+				scale: 0.75
 			}
 		}
 	};
@@ -60,17 +60,17 @@ const hamburgerStyling = `
     h-full
     w-full
     justify-evenly
-    duration-100
     bg-transparent
 	rounded-xl
     p-0
+	hover:scale-105
+	duration-200
 `;
 
 const hamburgerBarStylingBase = `
     hamburgerBar
     flex
     flex-row
-    w-full
     h-[10%]
 	bg-black dark:bg-bone
 `;

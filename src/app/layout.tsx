@@ -1,11 +1,10 @@
 import "~/styles/globals.css";
-// import { SpeedInsights } from "@vercel/speed-insights/next";
-// import { Analytics } from "@vercel/analytics/next";
 import { Viewport, type Metadata } from "next";
 import TopNav from "~/components/TopNav";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config";
 import { Config } from "tailwindcss";
+import Footer from "~/components/Footer";
 
 const twFullConfig = resolveConfig(
 	tailwindConfig as Config & typeof tailwindConfig
@@ -56,16 +55,21 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" className={htmlContainerStyling}>
 			<body className={bodyContainerStyling}>
 				<TopNav />
 				{children}
-				{/* <SpeedInsights /> */}
-				{/* <Analytics /> */}
+				<Footer />
 			</body>
 		</html>
 	);
 }
+
+const htmlContainerStyling = `
+	flex
+	flex-row
+	justify-center
+`;
 
 const bodyContainerStyling = `
 	flex
@@ -74,4 +78,5 @@ const bodyContainerStyling = `
 	w-full
 	items-center
 	bg-bone dark:bg-black
+	max-w-[2000px]
 `;

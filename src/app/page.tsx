@@ -18,7 +18,7 @@ export default function Home() {
 
 	return (
 		<div className={containerStyling}>
-			<div className={nameRowStyling}>
+			<div className={nameRowContainerStyling}>
 				<p className={nameTextStyling}>
 					nick <span className="tracking-tight">barrs</span>
 				</p>
@@ -44,13 +44,13 @@ const containerStyling = `
   items-start
   justify-center
   h-full
-  w-full md:max-w-[2000px]
+  w-full
   text-black
   dark:text-bone 
-  px-5 md:px-16
+  px-6 md:px-16
 `;
 
-const nameRowStyling = `
+const nameRowContainerStyling = `
   flex
   flex-row
   pb-3 lg:pb-4
@@ -63,7 +63,6 @@ const nameTextStyling = `
   leading-[7rem] lg:leading-[10rem]
   text-[8rem] lg:text-[12rem]
   w-1/2 md:w-full
-  duration-100
 `;
 
 const descriptionContainerStyling = `
@@ -74,7 +73,6 @@ const descriptionContainerStyling = `
   lg:flex-row
   text-3xl lg:text-4xl
   max-w-xs lg:max-w-full
-  duration-100
 `;
 const isANounContainerStyling = `
   flex
