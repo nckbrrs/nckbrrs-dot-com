@@ -134,7 +134,7 @@ const topNavContainerStyling = `
 const logoContainerStyling = `
 	flex
 	flex-row
-	h-12 md:h-16
+	h-12 md:h-14
 	aspect-square
 `;
 

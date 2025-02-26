@@ -26,6 +26,6 @@ const containerStyling = `
 `;
 
 const githubIconStyling = `
-	w-8 md:w-12
+	w-10
 	fill-black dark:fill-bone
 `;
