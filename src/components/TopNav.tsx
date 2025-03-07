@@ -135,6 +135,7 @@ const logoContainerStyling = `
 	flex
 	flex-row
 	h-12 md:h-14
+	mb-2 md:mb-1
 	aspect-square
 `;
 
