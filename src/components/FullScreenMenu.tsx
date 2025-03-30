@@ -22,6 +22,7 @@ export default function FullScreenMenu({
 			<div className={menuLinksColStyling}>
 				{links.map((l) => (
 					<Link
+						className={linkTextStyling}
 						key={l.text}
 						href={`${l.href}`}
 						target={l.linkType === "external" ? "_blank" : ""}
@@ -32,9 +33,7 @@ export default function FullScreenMenu({
 						}
 						onClick={onClickLink}
 					>
-						<p className={linkTextStyling}>
-							{l.text.toUpperCase()}
-						</p>
+						{l.text.toUpperCase()}
 					</Link>
 				))}
 			</div>
@@ -70,7 +69,7 @@ const menuLinksColStyling = `
 `;
 
 const linkTextStyling = `
-	w-full
+	w-full	
     text-4xl md:text-5xl lg:text-7xl
     font-bold
 	italic
