@@ -78,7 +78,6 @@ const linkTextStyling = `
     duration-200
     group-hover:opacity-25
     group-hover:blur-[2px]
-	group-hover:scale-[98%]
     hover:!opacity-100
     hover:!blur-0
 	hover:translate-x-3

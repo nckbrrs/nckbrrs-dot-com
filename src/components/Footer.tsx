@@ -9,7 +9,7 @@ export default function Footer() {
 				target={"_blank"}
 				rel={"noopener noreferrer"}
 			>
-				<GitHub className={githubIconStyling} />
+				{/* <GitHub className={githubIconStyling} /> */}
 			</Link>
 		</div>
 	);
