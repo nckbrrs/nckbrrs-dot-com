@@ -104,7 +104,7 @@ export default function TopNav() {
 			/>
 			<div className={topNavContainerStyling}>
 				<div className={logoContainerStyling}>
-					<Logo className={logoStyling} />
+					{/* <Logo className={logoStyling} /> */}
 				</div>
 				<div
 					id="hamburgerContainer"
