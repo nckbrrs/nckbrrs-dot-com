@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+	max-height: 100dvh;
+}
+
 html,
 body,
 * {
@@ -12,11 +16,6 @@ body,
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
-}
-
-dialog {
-	max-width: 100vw;
-	max-height: 100vh;
 }
 
 a {

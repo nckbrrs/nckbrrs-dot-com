@@ -51,16 +51,16 @@ export default function TopNav() {
 		text: string;
 		href: string;
 	}[] = [
-		{
-			linkType: "external",
-			text: "bluesky",
-			href: " https://bsky.app/profile/nckbrrs.bsky.social"
-		},
-		{
-			linkType: "external",
-			text: "threads",
-			href: "https://threads.net/@nckbrrs"
-		},
+		// {
+		// 	linkType: "external",
+		// 	text: "bluesky",
+		// 	href: " https://bsky.app/profile/nckbrrs.bsky.social"
+		// },
+		// {
+		// 	linkType: "external",
+		// 	text: "threads",
+		// 	href: "https://threads.net/@nckbrrs"
+		// },
 		{
 			linkType: "external",
 			text: "instagram",
