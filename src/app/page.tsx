@@ -17,37 +17,48 @@ export default function Home() {
 	];
 
 	return (
-		<div className={containerStyling}>
-			<div className={nameRowContainerStyling}>
-				<p className={nameTextStyling}>
-					nick <span className="tracking-tight">barrs</span>
-				</p>
-			</div>
-			<div className={descriptionContainerStyling}>
-				<div className={isANounContainerStyling}>
-					<p className={isATextStyling}>is a</p>
-					<div className={nounBubbleContainerStyling}>
-						<NounBubble nouns={nounsForBubble} />
-					</div>
-				</div>
-				<p className={livingWorkingTextStyling}>
-					living and working in New York City.
-				</p>
-			</div>
-		</div>
+    <div className={scrollContainerStyling}>
+      <div className={containerStyling}>
+        <div className={nameRowContainerStyling}>
+          <p className={nameTextStyling}>
+            nick <span className="tracking-tight">barrs</span>
+          </p>
+        </div>
+        <div className={descriptionContainerStyling}>
+          <div className={isANounContainerStyling}>
+            <p className={isATextStyling}>is a</p>
+            <div className={nounBubbleContainerStyling}>
+              <NounBubble nouns={nounsForBubble} />
+            </div>
+          </div>
+          <p className={livingWorkingTextStyling}>
+            living and working in New York City.
+          </p>
+        </div>
+      </div>
+    </div>
 	);
 }
+
+const scrollContainerStyling = `
+  flex
+  flex-col
+  flex-1
+  overflow-y-auto
+  w-full
+`
 
 const containerStyling = `
   flex
   flex-col
-  flex-1
-  items-start
-  justify-center
   w-full
+  items-start
+  w-full
+  pt-10
   text-black
-  dark:text-bone 
+  dark:text-bone
   px-6 md:px-16
+  my-auto
 `;
 
 const nameRowContainerStyling = `

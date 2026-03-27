@@ -17,7 +17,6 @@ const scrollContainerStyling = `
 	flex-1
 	overflow-y-auto
 	w-full
-	justify-center
 `;
 
 const containerStyling = `
@@ -29,6 +28,7 @@ const containerStyling = `
 	px-6 md:px-16
 	py-10
 	text-black dark:text-bone
+	my-auto
 `;
 
 const headingStyling = `
