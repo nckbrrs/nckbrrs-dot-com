@@ -23,11 +23,19 @@ export default {
 				loop: {
 					"0%": { transform: "translateX(0)" },
 					"100%": { transform: "translateX(-50%)" }
+				},
+				wiggle: {
+					"0%, 100%": { transform: "rotate(0deg)" },
+					"20%": { transform: "rotate(-25deg)" },
+					"40%": { transform: "rotate(25deg)" },
+					"60%": { transform: "rotate(-25deg)" },
+					"80%": { transform: "rotate(25deg)" }
 				}
 			},
 			animation: {
 				fadeIn: "fadeIn 1s ease-in",
-				infiniteSliderLoop: "loop 20s linear infinite"
+				infiniteSliderLoop: "loop 20s linear infinite",
+				wiggle: "wiggle 0.6s ease-out"
 			},
 			backgroundImage: {
 				fadeToBoneOnSides:

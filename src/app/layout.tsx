@@ -75,6 +75,7 @@ const bodyContainerStyling = `
 	flex
 	flex-col
 	h-screen
+	overflow-hidden
 	w-full
 	items-center
 	bg-bone dark:bg-black

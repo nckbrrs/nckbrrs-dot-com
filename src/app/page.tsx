@@ -41,9 +41,9 @@ export default function Home() {
 const containerStyling = `
   flex
   flex-col
+  flex-1
   items-start
   justify-center
-  h-full
   w-full
   text-black
   dark:text-bone 

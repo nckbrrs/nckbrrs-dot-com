@@ -1,15 +1,28 @@
-import GitHub from "./icons/GitHub";
+"use client";
+
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Footer() {
+	const pathname = usePathname();
+	const [wiggling, setWiggling] = useState(false);
+
+	const handleClick = () => {
+		if (pathname === "/contact" && !wiggling) {
+			setWiggling(true);
+			setTimeout(() => setWiggling(false), 600);
+		}
+	};
+
 	return (
 		<div className={containerStyling}>
 			<Link
-				href="https://www.github.com/nckbrrs"
-				target={"_blank"}
-				rel={"noopener noreferrer"}
+				href="/contact"
+				className={"flex justify-center items-center w-10"}
+				onClick={handleClick}
 			>
-				{/* <GitHub className={githubIconStyling} /> */}
+				<p className={`text-4xl ${wiggling ? "animate-wiggle" : ""}`}>👋</p>
 			</Link>
 		</div>
 	);

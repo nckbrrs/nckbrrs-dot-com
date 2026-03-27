@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import FullScreenMenu from "./FullScreenMenu";
 import Hamburger from "./Hamburger";
 import ResumePDF from "../../public/resume.pdf";
@@ -87,9 +88,9 @@ export default function TopNav() {
 			href: ResumePDF
 		},
 		{
-			linkType: "external",
-			text: "email",
-			href: "mailto:hello@nickbarrs.com"
+			linkType: "local",
+			text: "contact",
+			href: "/contact"
 		}
 	];
 
@@ -103,9 +104,9 @@ export default function TopNav() {
 				}
 			/>
 			<div className={topNavContainerStyling}>
-				<div className={logoContainerStyling}>
-					{/* <Logo className={logoStyling} /> */}
-				</div>
+				<Link href="/" className={logoContainerStyling}>
+					<Logo className={logoStyling} />
+				</Link>
 				<div
 					id="hamburgerContainer"
 					className={hamburgerContainerStyling}

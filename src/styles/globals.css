@@ -12,6 +12,12 @@ body,
 	scrollbar-width: none;
 }
 
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+	display: none;
+}
+
 * {
 	box-sizing: border-box;
 	padding: 0;
