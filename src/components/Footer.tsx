@@ -8,10 +8,13 @@ export default function Footer() {
 	const pathname = usePathname();
 	const [wiggling, setWiggling] = useState(false);
 
-	const handleClick = () => {
-		if (pathname === "/contact" && !wiggling) {
-			setWiggling(true);
-			setTimeout(() => setWiggling(false), 600);
+	const handleClick = (e: React.MouseEvent) => {
+		if (pathname === "/contact") {
+			e.preventDefault();
+			if (!wiggling) {
+				setWiggling(true);
+				setTimeout(() => setWiggling(false), 600);
+			}
 		}
 	};
 

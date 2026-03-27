@@ -13,6 +13,18 @@ export async function sendContactEmail(
 	_prevState: FormState,
 	formData: FormData
 ): Promise<FormState> {
+	// Honeypot check — bots fill this, humans don't see it
+	const honeypot = formData.get("website") as string;
+	if (honeypot) {
+		return { success: true, message: "Thanks! I'll get back to you soon." };
+	}
+
+	// Time check — reject submissions faster than 3 seconds
+	const timestamp = parseInt(formData.get("timestamp") as string, 10);
+	if (!timestamp || Date.now() - timestamp < 3000) {
+		return { success: true, message: "Thanks! I'll get back to you soon." };
+	}
+
 	const name = formData.get("name") as string;
 	const email = formData.get("email") as string;
 	const subject = formData.get("subject") as string;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { sendContactEmail, type FormState } from "./actions";
 
 export default function ContactForm() {
@@ -8,6 +8,13 @@ export default function ContactForm() {
 		sendContactEmail,
 		null
 	);
+	const timestampRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (timestampRef.current) {
+			timestampRef.current.value = Date.now().toString();
+		}
+	}, []);
 
 	if (state?.success) {
 		return <p className={successMessageStyling}>{state.message}</p>;
@@ -15,6 +22,16 @@ export default function ContactForm() {
 
 	return (
 		<form action={action} className={formStyling}>
+			{/* Honeypot — hidden from humans, bots will fill it */}
+			<input
+				type="text"
+				name="website"
+				autoComplete="off"
+				tabIndex={-1}
+				aria-hidden="true"
+				className="absolute -top-[9999px] -left-[9999px] w-0 h-0 opacity-0 overflow-hidden"
+			/>
+			<input type="hidden" name="timestamp" ref={timestampRef} />
 			<div className={rowStyling}>
 				<div className={fieldGroupStyling}>
 					<label htmlFor="name" className={labelStyling}>
