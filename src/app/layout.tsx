@@ -69,12 +69,12 @@ const htmlContainerStyling = `
 	flex
 	flex-row
 	justify-center
+	h-full
 `;
 
 const bodyContainerStyling = `
 	flex
 	flex-col
-	h-screen
 	overflow-hidden
 	w-full
 	items-center

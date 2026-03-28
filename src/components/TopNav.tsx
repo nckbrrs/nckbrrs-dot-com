@@ -126,7 +126,7 @@ const topNavContainerStyling = `
 	flex
 	flex-row
 	w-full
-	h-24 md:h-28
+	h-20 sm:h-24 md:h-28
 	justify-between
 	items-end
   	px-6 md:px-16
@@ -135,7 +135,7 @@ const topNavContainerStyling = `
 const logoContainerStyling = `
 	flex
 	flex-row
-	h-12 md:h-14
+	h-10 sm:h-12 md:h-14
 	mb-2 md:mb-1
 	aspect-square
 `;
@@ -148,8 +148,8 @@ const logoStyling = `
 const hamburgerContainerStyling = `
 	flex
 	flex-col
-	w-14
-	h-14
+	w-12 sm:w-14
+	h-12 sm:h-14
 	cursor-pointer
 	z-20
 	backdrop-blur-none

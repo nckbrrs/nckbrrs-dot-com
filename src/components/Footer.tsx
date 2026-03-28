@@ -25,7 +25,9 @@ export default function Footer() {
 				className={"flex justify-center items-center w-10"}
 				onClick={handleClick}
 			>
-				<p className={`text-4xl ${wiggling ? "animate-wiggle" : ""}`}>👋</p>
+				<p className={`text-4xl ${wiggling ? "animate-wiggle" : ""}`}>
+					👋
+				</p>
 			</Link>
 		</div>
 	);
