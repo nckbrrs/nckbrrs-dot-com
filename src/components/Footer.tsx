@@ -37,10 +37,10 @@ const containerStyling = `
 	flex
 	flex-row
 	justify-end
-	items-start
+	items-end
 	w-full
-	h-20 md:h-24
 	px-6 md:px-16
+	pb-4 sm:pb-16 md:pb-20
 `;
 
 const githubIconStyling = `
