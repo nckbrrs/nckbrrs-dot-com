@@ -82,11 +82,11 @@ export default function TopNav() {
 			text: "linkedin",
 			href: "https://www.linkedin.com/in/nckbrrs"
 		},
-		{
-			linkType: "external",
-			text: "resume",
-			href: ResumePDF
-		},
+		// {
+		// 	linkType: "external",
+		// 	text: "resume",
+		// 	href: ResumePDF
+		// },
 		{
 			linkType: "local",
 			text: "contact",
