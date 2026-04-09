@@ -12,6 +12,9 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, { className?: string }>(
 		useEffect(() => {
 			if (videoRef.current) {
 				videoRef.current.playbackRate = 2;
+				videoRef.current.play().catch(() => {
+					// Autoplay blocked by browser
+				});
 			}
 		}, [videoRef]);
 
