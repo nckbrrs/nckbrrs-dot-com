@@ -18,6 +18,13 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, { className?: string }>(
 			}
 		}, [videoRef]);
 
+		const handleLoaded = () => {
+			if (videoRef.current) {
+				videoRef.current.playbackRate = 2;
+				videoRef.current.play().catch(() => {});
+			}
+		};
+
 		return (
 			<video
 				ref={videoRef}
@@ -25,12 +32,15 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, { className?: string }>(
 				muted
 				loop
 				playsInline
+				preload="auto"
+				onLoadedMetadata={handleLoaded}
+				onCanPlay={handleLoaded}
 				className={twMerge(
 					"fixed inset-0 w-full h-full object-cover object-top -z-10 opacity-90 dark:opacity-50 -scale-x-100",
 					className
 				)}
 			>
-				<source src="/sky.mp4" type="video/mp4" />
+				<source src="/sky_compressed.mp4" type="video/mp4" />
 			</video>
 		);
 	}
