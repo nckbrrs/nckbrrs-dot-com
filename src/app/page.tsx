@@ -55,8 +55,8 @@ const containerStyling = `
   items-start
   w-full
   pt-10
-  text-black
-  dark:text-bone
+  text-bone
+
   px-6 md:px-16
   my-auto
 `;

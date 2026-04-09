@@ -141,8 +141,8 @@ const logoContainerStyling = `
 `;
 
 const logoStyling = `
-	stroke-black dark:stroke-bone
-	fill-black dark:fill-bone
+	stroke-bone
+	fill-bone
 `;
 
 const hamburgerContainerStyling = `

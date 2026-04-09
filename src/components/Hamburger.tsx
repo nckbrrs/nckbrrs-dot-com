@@ -72,5 +72,5 @@ const hamburgerBarStylingBase = `
     flex
     flex-row
     h-[10%]
-	bg-black dark:bg-bone
+	bg-bone
 `;

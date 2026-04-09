@@ -27,7 +27,7 @@ const containerStyling = `
 	justify-center
 	px-6 md:px-16
 	py-10
-	text-black dark:text-bone
+	text-bone
 	my-auto
 `;
 
@@ -35,4 +35,5 @@ const headingStyling = `
 	font-bold
 	tracking-tighter
 	text-5xl md:text-7xl
+	text-bone
 `;

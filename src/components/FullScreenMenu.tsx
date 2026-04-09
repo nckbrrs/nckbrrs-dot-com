@@ -1,5 +1,9 @@
+"use client";
+
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
+import BackgroundVideo from "./BackgroundVideo";
 
 interface FullScreenMenuProps {
 	isOpen: boolean;
@@ -12,13 +16,37 @@ export default function FullScreenMenu({
 	links,
 	onClickLink
 }: FullScreenMenuProps) {
-	return isOpen ? (
+	const menuVideoRef = useRef<HTMLVideoElement>(null);
+
+	useEffect(() => {
+		if (isOpen && menuVideoRef.current) {
+			const videos = Array.from(document.querySelectorAll("video"));
+			const layoutVideo = videos.find((v) => v !== menuVideoRef.current);
+			if (layoutVideo) {
+				menuVideoRef.current.currentTime = layoutVideo.currentTime;
+				menuVideoRef.current.playbackRate = layoutVideo.playbackRate;
+			}
+		}
+	}, [isOpen]);
+
+	return (
 		<motion.div
 			className={fullScreenMenuContainerStyling}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			exit={{ opacity: 0 }}
+			animate={{
+				opacity: isOpen ? 1 : 0,
+				pointerEvents: isOpen ? "auto" : "none"
+			}}
+			initial={{ opacity: 0, pointerEvents: "none" }}
+			transition={{ duration: 0.2 }}
 		>
+			<div className="absolute inset-0 bg-black" />
+			<motion.div
+				animate={{ opacity: 0.6 }}
+				initial={{ opacity: 1 }}
+				transition={{ duration: 1 }}
+			>
+				<BackgroundVideo ref={menuVideoRef} className="z-0" />
+			</motion.div>
 			<div className={menuLinksColStyling}>
 				{links.map((l) => (
 					<Link
@@ -38,23 +66,22 @@ export default function FullScreenMenu({
 				))}
 			</div>
 		</motion.div>
-	) : null;
+	);
 }
 
 const fullScreenMenuContainerStyling = `
     flex
-	flex-row 
+	flex-row
     w-full
     h-full
-    space-y-2 
-	bg-bone dark:bg-black
-	text-black dark:text-bone
-    left-0 
-    top-0 
-    justify-center 
+	text-bone
+    left-0
+    top-0
+    justify-center
     items-center
     fixed
     z-20
+    overflow-hidden
 `;
 
 const menuLinksColStyling = `
@@ -65,11 +92,12 @@ const menuLinksColStyling = `
     items-start
     justify-center
     space-y-0 lg:space-y-1
-    translate-y-2 
+    translate-y-2
+	relative
 `;
 
 const linkTextStyling = `
-	w-full	
+	w-full
     text-4xl md:text-5xl lg:text-7xl
     font-bold
 	italic

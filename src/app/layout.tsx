@@ -5,6 +5,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config";
 import { Config } from "tailwindcss";
 import Footer from "~/components/Footer";
+import BackgroundVideo from "~/components/BackgroundVideo";
 
 const twFullConfig = resolveConfig(
 	tailwindConfig as Config & typeof tailwindConfig
@@ -57,6 +58,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" className={htmlContainerStyling}>
 			<body className={bodyContainerStyling}>
+				<BackgroundVideo />
 				<TopNav />
 				{children}
 				<Footer />
@@ -78,6 +80,6 @@ const bodyContainerStyling = `
 	overflow-hidden
 	w-full
 	items-center
-	bg-bone dark:bg-black
 	max-w-[2000px]
+	bg-black
 `;

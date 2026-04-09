@@ -42,8 +42,3 @@ const containerStyling = `
 	px-6 md:px-16
 	pb-4 sm:pb-16 md:pb-20
 `;
-
-const githubIconStyling = `
-	w-10
-	fill-black dark:fill-bone
-`;

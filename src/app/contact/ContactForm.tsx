@@ -126,7 +126,7 @@ const labelStyling = `
 	text-sm
 	font-medium
 	tracking-tight
-	text-black dark:text-bone
+	text-bone
 	opacity-60
 `;
 
@@ -134,14 +134,10 @@ const inputStyling = `
 	w-full
 	bg-transparent
 	border-b
-	border-black dark:border-bone
-	border-opacity-30 dark:border-opacity-30
-	py-2
+	border-bone	border-opacity-30	py-2
 	text-base
-	text-black dark:text-bone
-	outline-none
-	focus:border-opacity-100 dark:focus:border-opacity-100
-	transition-all
+	text-bone	outline-none
+	focus:border-opacity-100	transition-all
 	duration-200
 `;
 
@@ -149,14 +145,10 @@ const textareaStyling = `
 	w-full
 	bg-transparent
 	border-b
-	border-black dark:border-bone
-	border-opacity-30 dark:border-opacity-30
-	py-2
+	border-bone	border-opacity-30	py-2
 	text-base
-	text-black dark:text-bone
-	outline-none
-	focus:border-opacity-100 dark:focus:border-opacity-100
-	transition-all
+	text-bone	outline-none
+	focus:border-opacity-100	transition-all
 	duration-200
 	resize-none
 `;
@@ -166,8 +158,7 @@ const submitButtonStyling = `
 	text-base
 	font-bold
 	tracking-tight
-	text-black dark:text-bone
-	underline
+	text-bone	underline
 	underline-offset-4
 	opacity-80
 	hover:opacity-100
@@ -181,8 +172,7 @@ const submitButtonStyling = `
 const successMessageStyling = `
 	text-sm
 	font-medium
-	text-black dark:text-bone
-	h-[500px]
+	text-bone	h-[500px]
 `;
 
 const errorMessageStyling = `
