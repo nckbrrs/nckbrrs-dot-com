@@ -17,15 +17,37 @@ export default function FullScreenMenu({
 	onClickLink
 }: FullScreenMenuProps) {
 	const menuVideoRef = useRef<HTMLVideoElement>(null);
+	// Tracks whether the menu has ever been opened. Used to skip the
+	// "closing" branch of the effect on initial mount, since running it
+	// at mount would reset the layout video's currentTime to 0.
+	const hasOpenedRef = useRef(false);
 
 	useEffect(() => {
-		if (isOpen && menuVideoRef.current) {
-			const videos = Array.from(document.querySelectorAll("video"));
-			const layoutVideo = videos.find((v) => v !== menuVideoRef.current);
-			if (layoutVideo) {
+		// Mobile browsers only allow one video to play at a time. Since we can't
+		// render a single shared video element, we hand off playback between them
+		// whenever the menu opens or closes.
+		const layoutVideo = Array.from(document.querySelectorAll("video")).find(
+			(v) => v !== menuVideoRef.current
+		);
+
+		if (isOpen) {
+			hasOpenedRef.current = true;
+			if (menuVideoRef.current && layoutVideo) {
+				// Sync position and speed from the layout video before playing
+				// so the transition looks seamless.
 				menuVideoRef.current.currentTime = layoutVideo.currentTime;
 				menuVideoRef.current.playbackRate = layoutVideo.playbackRate;
+				layoutVideo.pause();
+				menuVideoRef.current.play().catch(() => {});
 			}
+		} else if (hasOpenedRef.current) {
+			// Hand the current timestamp back to the layout video before
+			// resuming it so there's no jump when the menu closes.
+			if (menuVideoRef.current && layoutVideo) {
+				layoutVideo.currentTime = menuVideoRef.current.currentTime;
+			}
+			menuVideoRef.current?.pause();
+			layoutVideo?.play().catch(() => {});
 		}
 	}, [isOpen]);
 
@@ -45,7 +67,11 @@ export default function FullScreenMenu({
 				initial={{ opacity: 1 }}
 				transition={{ duration: 1 }}
 			>
-				<BackgroundVideo ref={menuVideoRef} className="z-0" />
+				<BackgroundVideo
+					ref={menuVideoRef}
+					className="z-0"
+					controlled
+				/>
 			</motion.div>
 			<div className={menuLinksColStyling}>
 				{links.map((l) => (
@@ -66,7 +92,9 @@ export default function FullScreenMenu({
 				))}
 			</div>
 			<button
-				onClick={() => document.documentElement.classList.toggle("plain-mode")}
+				onClick={() =>
+					document.documentElement.classList.toggle("plain-mode")
+				}
 				className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 opacity-50 hover:opacity-100 transition-opacity duration-200"
 				aria-label="Toggle plain mode"
 			>

@@ -1,15 +1,8 @@
 import "~/styles/globals.css";
 import { Viewport, type Metadata } from "next";
 import TopNav from "~/components/TopNav";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "../../tailwind.config";
-import { Config } from "tailwindcss";
 import Footer from "~/components/Footer";
 import BackgroundVideo from "~/components/BackgroundVideo";
-
-const twFullConfig = resolveConfig(
-	tailwindConfig as Config & typeof tailwindConfig
-);
 
 export const metadata: Metadata = {
 	metadataBase: new URL(
@@ -38,16 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: [
-		{
-			media: "(prefers-color-scheme: light)",
-			color: twFullConfig.theme.colors["bone"]
-		},
-		{
-			media: "(prefers-color-scheme: dark)",
-			color: twFullConfig.theme.colors["black"]
-		}
-	]
+	themeColor: "#fbf6f1"
 };
 
 export default function RootLayout({
