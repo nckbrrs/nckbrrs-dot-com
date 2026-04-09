@@ -40,5 +40,5 @@ const containerStyling = `
 	items-end
 	w-full
 	px-6 md:px-16
-	pb-4 sm:pb-16 md:pb-20
+	pb-8 sm:pb-16 md:pb-20
 `;

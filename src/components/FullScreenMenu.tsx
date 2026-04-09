@@ -65,6 +65,34 @@ export default function FullScreenMenu({
 					</Link>
 				))}
 			</div>
+			<button
+				onClick={() => document.documentElement.classList.toggle("plain-mode")}
+				className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 opacity-50 hover:opacity-100 transition-opacity duration-200"
+				aria-label="Toggle plain mode"
+			>
+				<svg
+					viewBox="0 0 24 24"
+					className="w-5 h-5"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<defs>
+						<clipPath id="cloud-left-half">
+							<rect x="0" y="0" width="12" height="24" />
+						</clipPath>
+					</defs>
+					<path
+						d="M6.5 19a4.5 4.5 0 0 1 0-9h.5a5 5 0 0 1 9.9-1A4.5 4.5 0 0 1 17.5 19z"
+						className="fill-none stroke-bone"
+						strokeWidth="1.5"
+					/>
+					<path
+						d="M6.5 19a4.5 4.5 0 0 1 0-9h.5a5 5 0 0 1 9.9-1A4.5 4.5 0 0 1 17.5 19z"
+						className="fill-bone"
+						stroke="none"
+						clipPath="url(#cloud-left-half)"
+					/>
+				</svg>
+			</button>
 		</motion.div>
 	);
 }

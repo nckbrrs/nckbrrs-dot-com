@@ -41,6 +41,16 @@ export default function TopNav() {
 			if (event.key === "Escape") {
 				closeFullScreenMenu();
 			}
+			if (
+				event.key === "p" ||
+				event.key === "P" ||
+				event.key === "b" ||
+				event.key === "B" ||
+				event.key === "a" ||
+				event.key === "A"
+			) {
+				document.documentElement.classList.toggle("plain-mode");
+			}
 		};
 
 		// Remove resize event listener on cleanup

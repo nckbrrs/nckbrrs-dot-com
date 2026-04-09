@@ -36,4 +36,5 @@ const headingStyling = `
 	tracking-tighter
 	text-5xl md:text-7xl
 	text-bone
+	md:mb-4
 `;
