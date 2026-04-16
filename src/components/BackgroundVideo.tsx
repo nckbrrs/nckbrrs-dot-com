@@ -8,8 +8,7 @@ const BackgroundVideo = forwardRef<
 	{ className?: string; controlled?: boolean }
 >(function BackgroundVideo({ className, controlled = false }, ref) {
 	const internalRef = useRef<HTMLVideoElement>(null);
-	const videoRef =
-		(ref as React.RefObject<HTMLVideoElement>) ?? internalRef;
+	const videoRef = (ref as React.RefObject<HTMLVideoElement>) ?? internalRef;
 
 	useEffect(() => {
 		// Fallback for browsers where autoPlay is blocked and the canplay
@@ -41,7 +40,7 @@ const BackgroundVideo = forwardRef<
 			preload="auto"
 			onCanPlay={handleCanPlay}
 			className={twMerge(
-				"fixed inset-0 w-full h-full object-cover object-top -z-10 opacity-90 dark:opacity-50 -scale-x-100",
+				"fixed inset-0 bg-gray-700 dark:bg-slate-800 w-full h-full object-cover object-top -z-10 opacity-70 -scale-x-100",
 				className
 			)}
 		>

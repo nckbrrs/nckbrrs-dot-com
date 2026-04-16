@@ -34,28 +34,3 @@ a {
 		color-scheme: dark;
 	}
 }
-
-html.plain-mode {
-	& body,
-	& .bg-black {
-		background-color: #fbf6f1 !important;
-	}
-	& video {
-		display: none !important;
-	}
-	& .text-bone {
-		color: #212121 !important;
-	}
-	& .fill-bone {
-		fill: #212121 !important;
-	}
-	& .stroke-bone {
-		stroke: #212121 !important;
-	}
-	& .bg-bone {
-		background-color: #212121 !important;
-	}
-	& .border-bone {
-		border-color: rgb(33 33 33 / var(--tw-border-opacity)) !important;
-	}
-}
