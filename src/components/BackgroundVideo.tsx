@@ -9,6 +9,9 @@ interface BackgroundVideoProps {
 	pixelSize?: number;
 	bayerLevel?: 2 | 4 | 8;
 	levels?: number;
+	hueRotate?: number; // degrees (in-shader, before quantization)
+	saturate?: number;  // 1.0 = unchanged (in-shader, before quantization)
+	cssHueRotate?: number; // degrees, applied as CSS filter on the canvas (post-dither)
 }
 
 const VERT_SRC = /* glsl */ `
@@ -29,7 +32,32 @@ const FRAG_SRC = /* glsl */ `
   uniform float u_pixelSize;
   uniform float u_bayerLevel;
   uniform float u_levels;
+  uniform float u_hueRotate; // radians
+  uniform float u_saturate;
   varying vec2 v_texCoord;
+
+  // Hue rotation around the luma axis (Graphics Gems approximation).
+  vec3 hueRotate(vec3 c, float angle) {
+    float U = cos(angle);
+    float W = sin(angle);
+    mat3 m = mat3(
+      0.299 + 0.701 * U + 0.168 * W,
+      0.587 - 0.587 * U + 0.330 * W,
+      0.114 - 0.114 * U - 0.497 * W,
+      0.299 - 0.299 * U - 0.328 * W,
+      0.587 + 0.413 * U + 0.035 * W,
+      0.114 - 0.114 * U + 0.292 * W,
+      0.299 - 0.300 * U + 1.250 * W,
+      0.587 - 0.588 * U - 1.050 * W,
+      0.114 + 0.886 * U - 0.203 * W
+    );
+    return c * m;
+  }
+
+  vec3 saturate3(vec3 c, float s) {
+    float luma = dot(c, vec3(0.299, 0.587, 0.114));
+    return mix(vec3(luma), c, s);
+  }
 
   // object-cover with object-top: scale video to fill canvas, crop overflow,
   // anchor top when video is taller than canvas, center when wider.
@@ -66,6 +94,7 @@ const FRAG_SRC = /* glsl */ `
   void main() {
     vec2 snappedUV = floor(v_texCoord * u_resolution / u_pixelSize) * u_pixelSize / u_resolution;
     vec4 color = texture2D(u_video, coverUV(snappedUV));
+    color.rgb = saturate3(hueRotate(color.rgb, u_hueRotate), u_saturate);
 
     vec2 pixelCoord = floor(v_texCoord * u_resolution / u_pixelSize);
     float bx = mod(pixelCoord.x, u_bayerLevel);
@@ -107,7 +136,16 @@ function createProgram(gl: WebGLRenderingContext, vert: WebGLShader, frag: WebGL
 
 const BackgroundVideo = forwardRef<HTMLVideoElement, BackgroundVideoProps>(
 	function BackgroundVideo(
-		{ className, controlled = false, pixelSize = 1, bayerLevel = 4, levels = 4 },
+		{
+			className,
+			controlled = false,
+			pixelSize = 1,
+			bayerLevel = 4,
+			levels = 4,
+			hueRotate = -20,
+			saturate = 1.8,
+			cssHueRotate = -22,
+		},
 		ref
 	) {
 		const internalRef = useRef<HTMLVideoElement>(null);
@@ -165,6 +203,8 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, BackgroundVideoProps>(
 			const uPixelSize = gl.getUniformLocation(program, "u_pixelSize");
 			const uBayerLevel = gl.getUniformLocation(program, "u_bayerLevel");
 			const uLevels = gl.getUniformLocation(program, "u_levels");
+			const uHueRotate = gl.getUniformLocation(program, "u_hueRotate");
+			const uSaturate = gl.getUniformLocation(program, "u_saturate");
 
 			function render() {
 				if (video.readyState < 2) {
@@ -203,6 +243,8 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, BackgroundVideoProps>(
 				gl!.uniform1f(uPixelSize, pixelSize);
 				gl!.uniform1f(uBayerLevel, bayerLevel);
 				gl!.uniform1f(uLevels, Math.max(2, levels));
+				gl!.uniform1f(uHueRotate, (hueRotate * Math.PI) / 180);
+				gl!.uniform1f(uSaturate, saturate);
 
 				gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
 				rafRef.current = requestAnimationFrame(render);
@@ -223,7 +265,7 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, BackgroundVideoProps>(
 				gl.deleteTexture(texture);
 				gl.deleteProgram(program);
 			};
-		}, [pixelSize, bayerLevel, levels, videoRef]);
+		}, [pixelSize, bayerLevel, levels, hueRotate, saturate, videoRef]);
 
 		const handleCanPlay = () => {
 			// Primary mobile play trigger. autoPlay alone is often blocked on
@@ -260,9 +302,10 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, BackgroundVideoProps>(
 				<canvas
 					ref={canvasRef}
 					className={twMerge(
-						"fixed inset-0 bg-gray-700 dark:bg-slate-800 w-full h-full -z-10 -scale-x-100",
+						"fixed inset-0 bg-[#2D5FA2] w-full h-full -z-10 -scale-x-100",
 						className
 					)}
+					style={{ filter: `hue-rotate(${cssHueRotate}deg)` }}
 				/>
 			</>
 		);

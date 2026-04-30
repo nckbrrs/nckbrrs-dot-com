@@ -11,7 +11,6 @@ export default {
 			colors: {
 				black: "#212121",
 				bone: "#fbf6f1",
-				skyblue: "#416686",
 				destructive: "hsl(0 100% 50%)",
 				"destructive-foreground": "hsl(210 40% 98%)"
 			},
