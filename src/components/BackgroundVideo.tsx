@@ -302,7 +302,7 @@ const BackgroundVideo = forwardRef<HTMLVideoElement, BackgroundVideoProps>(
 				<canvas
 					ref={canvasRef}
 					className={twMerge(
-						"fixed inset-0 bg-[#2D5FA2] w-full h-full -z-10 -scale-x-100",
+						"fixed inset-0 bg-gray-900 w-full h-full -z-10 -scale-x-100",
 						className
 					)}
 					style={{ filter: `hue-rotate(${cssHueRotate}deg)` }}
