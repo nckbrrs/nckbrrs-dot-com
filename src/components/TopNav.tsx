@@ -63,6 +63,11 @@ export default function TopNav() {
 		// 	href: "https://threads.net/@nckbrrs"
 		// },
 		{
+			linkType: "local",
+			text: "home",
+			href: '/',
+		},
+		{
 			linkType: "external",
 			text: "instagram",
 			href: "https://www.instagram.com/nckbrrs"
@@ -100,13 +105,14 @@ export default function TopNav() {
 				isOpen={fullScreenMenuIsOpen}
 				links={links}
 				onClickLink={() =>
-					setTimeout(() => closeFullScreenMenu(), 1000)
+					setTimeout(() => closeFullScreenMenu(), 20)
 				}
 			/>
 			<div className={topNavContainerStyling}>
-				<Link href="/" className={logoContainerStyling}>
+				{/* <Link href="/" className={logoContainerStyling}>
 					<Logo className={logoStyling} />
-				</Link>
+				</Link> */}
+				<div/>
 				<div
 					id="hamburgerContainer"
 					className={hamburgerContainerStyling}

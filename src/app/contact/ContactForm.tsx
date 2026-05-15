@@ -127,14 +127,17 @@ const labelStyling = `
 	font-medium
 	tracking-tight
 	text-bone
-	opacity-60
+	opacity-90
 `;
 
 const inputStyling = `
 	w-full
-	bg-transparent
-	border-b
-	border-bone	border-opacity-30	py-2
+	bg-black/5
+	backdrop-blur-sm
+	border
+	border-bone	border-opacity-70
+	rounded-md
+	px-3 py-2
 	text-base
 	text-bone	outline-none
 	focus:border-opacity-100	transition-all
@@ -143,9 +146,12 @@ const inputStyling = `
 
 const textareaStyling = `
 	w-full
-	bg-transparent
-	border-b
-	border-bone	border-opacity-30	py-2
+	bg-black/20
+	backdrop-blur-sm
+	border
+	border-bone	border-opacity-70
+	rounded-md
+	px-3 py-2
 	text-base
 	text-bone	outline-none
 	focus:border-opacity-100	transition-all
@@ -155,13 +161,13 @@ const textareaStyling = `
 
 const submitButtonStyling = `
 	w-fit
+	px-6 py-2
 	text-base
-	font-bold
+	font-medium
 	tracking-tight
-	text-bone	underline
-	underline-offset-4
-	opacity-80
-	hover:opacity-100
+	bg-bone text-black
+	rounded-md
+	hover:opacity-80
 	disabled:opacity-40
 	transition-opacity
 	duration-200
