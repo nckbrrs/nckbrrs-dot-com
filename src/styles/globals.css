@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-	max-height: 100dvh;
+	/* max-height: 100dvh; */
 }
 
 html,

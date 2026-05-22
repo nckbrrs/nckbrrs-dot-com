@@ -62,11 +62,11 @@ export default function TopNav() {
 		// 	text: "threads",
 		// 	href: "https://threads.net/@nckbrrs"
 		// },
-		{
-			linkType: "local",
-			text: "home",
-			href: '/',
-		},
+		// {
+		// 	linkType: "local",
+		// 	text: "home",
+		// 	href: '/',
+		// },
 		{
 			linkType: "external",
 			text: "instagram",
@@ -95,7 +95,7 @@ export default function TopNav() {
 		{
 			linkType: "local",
 			text: "contact",
-			href: "/contact"
+			href: "mailto:hello@nickbarrs.com"
 		}
 	];
 

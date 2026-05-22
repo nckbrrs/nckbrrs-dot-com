@@ -26,10 +26,10 @@ export default {
 				},
 				wiggle: {
 					"0%, 100%": { transform: "rotate(0deg)" },
-					"20%": { transform: "rotate(-25deg)" },
-					"40%": { transform: "rotate(25deg)" },
-					"60%": { transform: "rotate(-25deg)" },
-					"80%": { transform: "rotate(25deg)" }
+					"20%": { transform: "rotate(-14deg)" },
+					"40%": { transform: "rotate(14deg)" },
+					"60%": { transform: "rotate(-14deg)" },
+					"80%": { transform: "rotate(14deg)" }
 				}
 			},
 			animation: {

@@ -74,6 +74,7 @@ const nameTextStyling = `
   leading-[7rem] lg:leading-[10rem]
   text-[8rem] lg:text-[12rem]
   w-1/2 md:w-full
+  [text-shadow:0_2px_16px_rgba(0,0,0,0.18)]
 `;
 
 const descriptionContainerStyling = `
@@ -94,6 +95,7 @@ const isANounContainerStyling = `
 const isATextStyling = `
   font-medium
   whitespace-nowrap
+  [text-shadow:0_2px_12px_rgba(0,0,0,0.18)]
 `;
 
 const nounBubbleContainerStyling = `
@@ -104,4 +106,5 @@ const livingWorkingTextStyling = `
   font-medium
   leading-[3rem] lg:leading-[4rem]
   lg:whitespace-nowrap
+  [text-shadow:0_2px_12px_rgba(0,0,0,0.18)]
 `;

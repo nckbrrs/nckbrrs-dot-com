@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 import BackgroundVideo from "./BackgroundVideo";
+import MobileEdgeFades from "./MobileEdgeFades";
 
 interface FullScreenMenuProps {
 	isOpen: boolean;
@@ -16,41 +16,6 @@ export default function FullScreenMenu({
 	links,
 	onClickLink
 }: FullScreenMenuProps) {
-	const menuVideoRef = useRef<HTMLVideoElement>(null);
-	// Tracks whether the menu has ever been opened. Used to skip the
-	// "closing" branch of the effect on initial mount, since running it
-	// at mount would reset the layout video's currentTime to 0.
-	const hasOpenedRef = useRef(false);
-
-	useEffect(() => {
-		// Mobile browsers only allow one video to play at a time. Since we can't
-		// render a single shared video element, we hand off playback between them
-		// whenever the menu opens or closes.
-		const layoutVideo = Array.from(document.querySelectorAll("video")).find(
-			(v) => v !== menuVideoRef.current
-		);
-
-		if (isOpen) {
-			hasOpenedRef.current = true;
-			if (menuVideoRef.current && layoutVideo) {
-				// Sync position and speed from the layout video before playing
-				// so the transition looks seamless.
-				menuVideoRef.current.currentTime = layoutVideo.currentTime;
-				menuVideoRef.current.playbackRate = layoutVideo.playbackRate;
-				layoutVideo.pause();
-				menuVideoRef.current.play().catch(() => {});
-			}
-		} else if (hasOpenedRef.current) {
-			// Hand the current timestamp back to the layout video before
-			// resuming it so there's no jump when the menu closes.
-			if (menuVideoRef.current && layoutVideo) {
-				layoutVideo.currentTime = menuVideoRef.current.currentTime;
-			}
-			menuVideoRef.current?.pause();
-			layoutVideo?.play().catch(() => {});
-		}
-	}, [isOpen]);
-
 	return (
 		<motion.div
 			className={fullScreenMenuContainerStyling}
@@ -63,16 +28,13 @@ export default function FullScreenMenu({
 		>
 			<div className="absolute inset-0 bg-black" />
 			<motion.div
-				animate={{ opacity: 0.6 }}
+				animate={{ opacity: 1 }}
 				initial={{ opacity: 1 }}
 				transition={{ duration: 1 }}
 			>
-				<BackgroundVideo
-					ref={menuVideoRef}
-					className="z-0"
-					controlled
-				/>
+				<BackgroundVideo className="z-0" />
 			</motion.div>
+			<MobileEdgeFades className="absolute inset-0 z-10" />
 			<div className={menuLinksColStyling}>
 				{links.map((l) => (
 					<Link

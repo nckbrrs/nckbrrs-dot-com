@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: "#fbf6f1"
+	themeColor: "#005AFD"
 };
 
 export default function RootLayout({
@@ -56,6 +56,8 @@ const htmlContainerStyling = `
 	flex-row
 	justify-center
 	h-full
+	min-h-100dvh
+	bg-[#005AFD]
 `;
 
 const bodyContainerStyling = `
@@ -65,5 +67,4 @@ const bodyContainerStyling = `
 	w-full
 	items-center
 	max-w-[2000px]
-	bg-black
 `;
