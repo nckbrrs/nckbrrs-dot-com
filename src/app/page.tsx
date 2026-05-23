@@ -2,7 +2,7 @@ import NounBubble from "../components/NounBubble";
 
 export default function Home() {
 	const nounsForBubble: { text: string; width: number }[] = [
-		{ text: "human", width: 10 },
+    { text: "human", width: 10 },
 		{ text: "programmer", width: 16 },
 		{ text: "creative", width: 12 },
 		{ text: "musician", width: 13 },

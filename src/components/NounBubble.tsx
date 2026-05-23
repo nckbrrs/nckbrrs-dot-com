@@ -13,9 +13,9 @@ export default function NounBubble({ nouns }: NounBubbleProps) {
 	const twConfig = resolveConfig(tailwindConfig);
 
 	const bgColors: string[] = [
+		twConfig.theme.colors.orange[500],
 		twConfig.theme.colors.cyan[400],
 		twConfig.theme.colors.red[500],
-		twConfig.theme.colors.orange[500],
 		twConfig.theme.colors.green[500],
 		twConfig.theme.colors.gray[500],
 		twConfig.theme.colors.yellow[500],
@@ -23,7 +23,6 @@ export default function NounBubble({ nouns }: NounBubbleProps) {
 		twConfig.theme.colors.teal[500],
 		twConfig.theme.colors.purple[500],
 		twConfig.theme.colors.red[500],
-		twConfig.theme.colors.cyan[400]
 	];
 
 	const animationIntervalInSeconds = 2.5;
@@ -119,6 +118,7 @@ const nounStyling = `
     text-[2rem] lg:text-4xl
     font-bold
     text-bone
+	text-nowrap
     w-64
     text-center
     drop-shadow-sm

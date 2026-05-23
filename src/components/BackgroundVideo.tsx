@@ -1,165 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import MobileEdgeFades from "./MobileEdgeFades";
 
 interface BackgroundVideoProps {
 	className?: string;
 	pixelSize?: number;
-	bayerLevel?: 2 | 4 | 8;
+	bayerLevel?: number;
 	levels?: number;
 	hueRotate?: number;
 	saturate?: number;
 	cssHueRotate?: number;
-}
-
-const CLOUD_W = 800;
-const CLOUD_H = 450;
-
-// A single puff within a cloud cluster.
-// dx/dy: offset from cloud anchor, fraction of cloud `size`.
-// r:     radius, fraction of cloud `size`.
-// Adjacent puffs are spaced ~2r apart so each dome sits clearly above the
-// shared base — creating the classic bumpy cumulus silhouette. No blur is
-// applied; the Bayer dithering in the shader provides the soft appearance.
-interface Puff {
-	dx: number;
-	dy: number;
-	r: number;
-}
-
-const SHAPES: readonly Puff[][] = [
-	// Shape A — wide low cumulus, 4-puff base, 3 bumps left-of-center
-	[
-		{ dx: -0.54, dy:  0.08, r: 0.28 },
-		{ dx: -0.16, dy:  0.05, r: 0.33 },
-		{ dx:  0.22, dy:  0.07, r: 0.29 },
-		{ dx:  0.55, dy:  0.10, r: 0.24 },
-		{ dx: -0.30, dy: -0.18, r: 0.19 },
-		{ dx: -0.02, dy: -0.22, r: 0.21 },
-		{ dx:  0.22, dy: -0.17, r: 0.17 },
-	],
-	// Shape B — compact, flat base, 2 bumps right-of-center
-	[
-		{ dx: -0.38, dy:  0.08, r: 0.25 },
-		{ dx: -0.02, dy:  0.08, r: 0.29 },
-		{ dx:  0.34, dy:  0.08, r: 0.25 },
-		{ dx:  0.08, dy: -0.19, r: 0.18 },
-		{ dx:  0.36, dy: -0.15, r: 0.16 },
-	],
-	// Shape C — single unified mass, large center puff with flanking lobes
-	[
-		{ dx: -0.36, dy:  0.06, r: 0.24 },
-		{ dx:  0.00, dy:  0.03, r: 0.31 },
-		{ dx:  0.36, dy:  0.06, r: 0.23 },
-		{ dx: -0.20, dy: -0.17, r: 0.18 },
-		{ dx:  0.14, dy: -0.20, r: 0.18 },
-	],
-	// Shape D — large billowing, 5-puff base, 4 bumps left-heavy
-	[
-		{ dx: -0.66, dy:  0.10, r: 0.26 },
-		{ dx: -0.32, dy:  0.07, r: 0.32 },
-		{ dx:  0.05, dy:  0.05, r: 0.34 },
-		{ dx:  0.40, dy:  0.08, r: 0.29 },
-		{ dx:  0.68, dy:  0.12, r: 0.22 },
-		{ dx: -0.50, dy: -0.20, r: 0.19 },
-		{ dx: -0.18, dy: -0.25, r: 0.22 },
-		{ dx:  0.16, dy: -0.21, r: 0.18 },
-		{ dx:  0.46, dy: -0.16, r: 0.15 },
-	],
-	// Shape E — medium, 3 bumps right-leaning
-	[
-		{ dx: -0.42, dy:  0.09, r: 0.26 },
-		{ dx: -0.04, dy:  0.06, r: 0.30 },
-		{ dx:  0.36, dy:  0.09, r: 0.24 },
-		{ dx: -0.16, dy: -0.19, r: 0.16 },
-		{ dx:  0.14, dy: -0.23, r: 0.19 },
-		{ dx:  0.40, dy: -0.17, r: 0.15 },
-	],
-	// Shape F — massive, tight bright core with soft wide falloff
-	[
-		{ dx: -0.38, dy:  0.07, r: 0.30 },
-		{ dx: -0.10, dy:  0.04, r: 0.36 },
-		{ dx:  0.18, dy:  0.05, r: 0.34 },
-		{ dx:  0.24, dy:  0.08, r: 0.26 },
-		{ dx: -0.52, dy:  0.10, r: 0.22 },
-		{ dx: -0.24, dy: -0.20, r: 0.23 },
-		{ dx:  0.04, dy: -0.25, r: 0.27 },
-		{ dx:  0.28, dy: -0.21, r: 0.23 },
-	],
-];
-
-interface Cloud {
-	ox: number;     // initial x offset [0, 1]
-	oy: number;     // y position [0, 1]
-	size: number;   // cloud scale in canvas pixels
-	speed: number;  // canvas-widths per second
-	shape: number;  // index into SHAPES
-}
-
-const CLOUDS: Cloud[] = [
-	{ ox: 0.28, oy: 0.18, size: 100, speed: 0.009, shape: 3 },
-	{ ox: 0.78, oy: 0.64, size: 260, speed: 0.005, shape: 5 },
-	{ ox: -0.02, oy: 0.68, size: 135, speed: 0.007, shape: 1 },
-];
-
-function seededRand(seed: number): number {
-	const x = Math.sin(seed + 1) * 43758.5453;
-	return x - Math.floor(x);
-}
-
-// Jitter each cloud's puffs once at startup so shapes are stable but unique
-const CLOUD_PUFFS: Puff[][] = CLOUDS.map((cloud, ci) => {
-	const base = (SHAPES[cloud.shape] ?? SHAPES[0]) as Puff[];
-	return base.map((p, pi) => ({
-		dx: p.dx + (seededRand(ci * 100 + pi * 3 + 0) - 0.5) * 0.18,
-		dy: p.dy + (seededRand(ci * 100 + pi * 3 + 1) - 0.5) * 0.05,
-		r:  Math.max(0.10, p.r + (seededRand(ci * 100 + pi * 3 + 2) - 0.5) * 0.14),
-	}));
-});
-
-// Max upward/downward reach of each cloud (fraction of size), computed post-jitter
-const CLOUD_EXTENTS = CLOUD_PUFFS.map((puffs) => {
-	let top = 0, bottom = 0;
-	for (const p of puffs) {
-		const reach = p.r * 1.6;
-		top    = Math.max(top,    -(p.dy - reach));
-		bottom = Math.max(bottom,   p.dy + reach);
-	}
-	return { top, bottom };
-});
-
-function drawClouds(ctx: CanvasRenderingContext2D, elapsed: number) {
-	// Sky gradient
-	ctx.filter = "none";
-	ctx.fillStyle = "#2878b8";
-	ctx.fillRect(0, 0, CLOUD_W, CLOUD_H);
-
-	for (const [ci, cloud] of CLOUDS.entries()) {
-		const nx = cloud.ox + cloud.speed * elapsed;
-		const ext = CLOUD_EXTENTS[ci];
-		const cy = Math.max(ext.top * cloud.size, Math.min(CLOUD_H - ext.bottom * cloud.size, cloud.oy * CLOUD_H));
-		const puffs = CLOUD_PUFFS[ci];
-
-		const cx = nx * CLOUD_W;
-		if (cx - cloud.size * 2 > CLOUD_W) continue;
-
-		for (const p of puffs) {
-			const px = cx + p.dx * cloud.size;
-			const py = cy + p.dy * cloud.size;
-			const r  = p.r * cloud.size * 1.6;
-
-			const sg = ctx.createRadialGradient(px, py, 0, px, py, r);
-			sg.addColorStop(0.0, "rgba(255,255,255,0.92)");
-			sg.addColorStop(0.45, "rgba(255,255,255,0.72)");
-			sg.addColorStop(0.75, "rgba(255,255,255,0.30)");
-			sg.addColorStop(1.0,  "rgba(255,255,255,0.00)");
-			ctx.fillStyle = sg;
-			ctx.fillRect(px - r, py - r, r * 2, r * 2);
-		}
-	}
-	ctx.filter = "none";
 }
 
 const VERT_SRC = /* glsl */ `
@@ -182,6 +34,7 @@ const FRAG_SRC = /* glsl */ `
   uniform float u_levels;
   uniform float u_hueRotate;
   uniform float u_saturate;
+  uniform float u_time;
   varying vec2 v_texCoord;
 
   vec3 hueRotate(vec3 c, float angle) {
@@ -221,14 +74,21 @@ const FRAG_SRC = /* glsl */ `
     vec4 color = texture2D(u_video, coverUV(snapped));
     color.rgb = saturate3(hueRotate(color.rgb, u_hueRotate), u_saturate);
 
+    // Scanlines: dim every other two pixel rows, scrolling downward over time
+    float scrolled = floor(v_texCoord.y * u_resolution.y) + floor(u_time * 8.0);
+    float scanline = 1.0 - 0.40 * step(1.0, mod(scrolled, 4.0));
+
+    // Apply CRT scanlines before dithering
+    color.rgb *= scanline;
+
     vec2 pc = floor(v_texCoord * u_resolution / u_pixelSize);
     float threshold = bayer8x8(mod(pc.x, u_bayerLevel), mod(pc.y, u_bayerLevel)) - 0.5;
-    float step = 1.0 / (u_levels - 1.0);
+    float lvlStep = 1.0 / (u_levels - 1.0);
 
     gl_FragColor = vec4(
-      clamp(floor(color.r/step + 0.5 + threshold)*step, 0.0, 1.0),
-      clamp(floor(color.g/step + 0.5 + threshold)*step, 0.0, 1.0),
-      clamp(floor(color.b/step + 0.5 + threshold)*step, 0.0, 1.0),
+      clamp(floor(color.r/lvlStep + 0.5 + threshold)*lvlStep, 0.0, 1.0),
+      clamp(floor(color.g/lvlStep + 0.5 + threshold)*lvlStep, 0.0, 1.0),
+      clamp(floor(color.b/lvlStep + 0.5 + threshold)*lvlStep, 0.0, 1.0),
       color.a
     );
   }
@@ -256,23 +116,26 @@ function createProgram(gl: WebGLRenderingContext, v: WebGLShader, f: WebGLShader
 export default function BackgroundVideo({
 	className,
 	pixelSize = 1,
-	bayerLevel = 4,
-	levels = 4,
-	hueRotate = -0,
-	saturate = 1.8,
-	cssHueRotate = -4,
+	bayerLevel = 7,
+	levels = 12,
+	hueRotate = 0,
+	saturate = 4,
+	cssHueRotate = 0,
 }: BackgroundVideoProps) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const rafRef = useRef<number>(0);
+	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
 		const canvas = canvasRef.current!;
 		if (!canvas) return;
 
 		const offscreen = document.createElement("canvas");
-		offscreen.width = CLOUD_W;
-		offscreen.height = CLOUD_H;
+		offscreen.width = 2;
+		offscreen.height = 2;
 		const ctx = offscreen.getContext("2d")!;
+		ctx.fillStyle = "#1866e3";
+		ctx.fillRect(0, 0, 2, 2);
 
 		const gl = canvas.getContext("webgl", { alpha: false, premultipliedAlpha: false });
 		if (!gl) { console.error("WebGL not supported"); return; }
@@ -308,14 +171,12 @@ export default function BackgroundVideo({
 		const uLvl  = gl.getUniformLocation(program, "u_levels");
 		const uHue  = gl.getUniformLocation(program, "u_hueRotate");
 		const uSat  = gl.getUniformLocation(program, "u_saturate");
+		const uTime = gl.getUniformLocation(program, "u_time");
 
 		const startTime = performance.now();
 
 		function render(now: DOMHighResTimeStamp) {
 			const elapsed = (now - startTime) / 1000;
-
-			drawClouds(ctx, elapsed);
-
 			const w = canvas.clientWidth, h = canvas.clientHeight;
 			if (canvas.width !== w || canvas.height !== h) {
 				canvas.width = w; canvas.height = h;
@@ -336,14 +197,16 @@ export default function BackgroundVideo({
 
 			gl!.uniform1i(uVid, 0);
 			gl!.uniform2f(uRes, canvas.width, canvas.height);
-			gl!.uniform2f(uVSz, CLOUD_W, CLOUD_H);
+			gl!.uniform2f(uVSz, offscreen.width, offscreen.height);
 			gl!.uniform1f(uPx, pixelSize);
 			gl!.uniform1f(uBay, bayerLevel);
 			gl!.uniform1f(uLvl, Math.max(2, levels));
 			gl!.uniform1f(uHue, (hueRotate * Math.PI) / 180);
 			gl!.uniform1f(uSat, saturate);
+			gl!.uniform1f(uTime, elapsed);
 
 			gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+			setReady(true);
 			rafRef.current = requestAnimationFrame(render);
 		}
 
@@ -360,7 +223,11 @@ export default function BackgroundVideo({
 			<canvas
 				ref={canvasRef}
 				className={twMerge("fixed inset-0 bg-[#005AFD] w-full h-full -z-10", className)}
-				style={{ filter: `hue-rotate(${cssHueRotate}deg)` }}
+				style={{
+				filter: `hue-rotate(${cssHueRotate}deg)`,
+				opacity: ready ? 1 : 0,
+				transition: "opacity 0.6s ease-in",
+			}}
 			/>
 			<MobileEdgeFades className="fixed inset-0 -z-10" />
 		</>
