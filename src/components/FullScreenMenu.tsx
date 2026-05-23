@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import BackgroundVideo from "./BackgroundVideo";
+import Background from "./Background";
 import MobileEdgeFades from "./MobileEdgeFades";
 
 interface FullScreenMenuProps {
@@ -32,7 +32,7 @@ export default function FullScreenMenu({
 				initial={{ opacity: 1 }}
 				transition={{ duration: 1 }}
 			>
-				<BackgroundVideo className="z-0" />
+				<Background className="z-0" />
 			</motion.div>
 			<MobileEdgeFades className="absolute inset-0 z-10" />
 			<div className={menuLinksColStyling}>

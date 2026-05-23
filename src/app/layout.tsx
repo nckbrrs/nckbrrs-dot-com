@@ -2,7 +2,8 @@ import "~/styles/globals.css";
 import { Viewport, type Metadata } from "next";
 import TopNav from "~/components/TopNav";
 import Footer from "~/components/Footer";
-import BackgroundVideo from "~/components/BackgroundVideo";
+import Background from "~/components/Background";
+import { BG_COLOR, FADE_COLOR } from "~/lib/colors";
 
 export const metadata: Metadata = {
 	metadataBase: new URL(
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-	themeColor: "#005AFD"
+	themeColor: FADE_COLOR
 };
 
 export default function RootLayout({
@@ -40,9 +41,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={htmlContainerStyling}>
+		<html lang="en" className={htmlContainerStyling} style={{ "--bg-fade": FADE_COLOR } as React.CSSProperties}>
 			<body className={bodyContainerStyling}>
-				<BackgroundVideo />
+				<Background />
 				<TopNav />
 				{children}
 				<Footer />
@@ -57,7 +58,7 @@ const htmlContainerStyling = `
 	justify-center
 	h-full
 	min-h-100dvh
-	bg-[#005AFD]
+	bg-[var(--bg-fade)]
 `;
 
 const bodyContainerStyling = `

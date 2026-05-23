@@ -3,15 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import MobileEdgeFades from "./MobileEdgeFades";
+import { BG_COLOR, SCANLINE_AVG, darkenHex } from "~/lib/colors";
 
-interface BackgroundVideoProps {
+const PIXEL_SIZE    = 1;
+const BAYER_LEVEL   = 7;
+const LEVELS        = 5;
+const SATURATE      = 1;
+const CSS_HUE_ROTATE = 0;
+const CRT_SCAN_SPEED    = 6;
+
+interface BackgroundProps {
 	className?: string;
-	pixelSize?: number;
-	bayerLevel?: number;
-	levels?: number;
-	hueRotate?: number;
-	saturate?: number;
-	cssHueRotate?: number;
 }
 
 const VERT_SRC = /* glsl */ `
@@ -32,21 +34,10 @@ const FRAG_SRC = /* glsl */ `
   uniform float u_pixelSize;
   uniform float u_bayerLevel;
   uniform float u_levels;
-  uniform float u_hueRotate;
   uniform float u_saturate;
   uniform float u_time;
+  uniform float u_scanSpeed;
   varying vec2 v_texCoord;
-
-  vec3 hueRotate(vec3 c, float angle) {
-    float U = cos(angle);
-    float W = sin(angle);
-    mat3 m = mat3(
-      0.299 + 0.701*U + 0.168*W, 0.587 - 0.587*U + 0.330*W, 0.114 - 0.114*U - 0.497*W,
-      0.299 - 0.299*U - 0.328*W, 0.587 + 0.413*U + 0.035*W, 0.114 - 0.114*U + 0.292*W,
-      0.299 - 0.300*U + 1.250*W, 0.587 - 0.588*U - 1.050*W, 0.114 + 0.886*U - 0.203*W
-    );
-    return c * m;
-  }
 
   vec3 saturate3(vec3 c, float s) {
     float luma = dot(c, vec3(0.299, 0.587, 0.114));
@@ -72,11 +63,11 @@ const FRAG_SRC = /* glsl */ `
   void main() {
     vec2 snapped = floor(v_texCoord * u_resolution / u_pixelSize) * u_pixelSize / u_resolution;
     vec4 color = texture2D(u_video, coverUV(snapped));
-    color.rgb = saturate3(hueRotate(color.rgb, u_hueRotate), u_saturate);
+    color.rgb = saturate3(color.rgb, u_saturate);
 
     // Scanlines: dim every other two pixel rows, scrolling downward over time
-    float scrolled = floor(v_texCoord.y * u_resolution.y) + floor(u_time * 8.0);
-    float scanline = 1.0 - 0.40 * step(1.0, mod(scrolled, 4.0));
+    float scrolled = floor(v_texCoord.y * u_resolution.y) + floor(u_time * u_scanSpeed);
+    float scanline = 1.0 - 0.60 * step(1.0, mod(scrolled, 4.0));
 
     // Apply CRT scanlines before dithering
     color.rgb *= scanline;
@@ -113,17 +104,10 @@ function createProgram(gl: WebGLRenderingContext, v: WebGLShader, f: WebGLShader
 	return p;
 }
 
-export default function BackgroundVideo({
-	className,
-	pixelSize = 1,
-	bayerLevel = 7,
-	levels = 12,
-	hueRotate = 0,
-	saturate = 4,
-	cssHueRotate = 0,
-}: BackgroundVideoProps) {
+export default function Background({ className }: BackgroundProps) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const rafRef = useRef<number>(0);
+	const colorRef = useRef<string>(BG_COLOR);
 	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
@@ -134,8 +118,20 @@ export default function BackgroundVideo({
 		offscreen.width = 2;
 		offscreen.height = 2;
 		const ctx = offscreen.getContext("2d")!;
-		ctx.fillStyle = "#1866e3";
-		ctx.fillRect(0, 0, 2, 2);
+
+		const setColor = (hex: string) => {
+			colorRef.current = hex;
+			document.documentElement.style.setProperty("--bg", hex);
+			document.documentElement.style.setProperty("--bg-fade", darkenHex(hex, SCANLINE_AVG));
+		};
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			const cur = colorRef.current;
+			if (e.key === "r") setColor(cur === "#ff0000" ? "#001111" : "#ff0000");
+			if (e.key === "g") setColor(cur === "#00ff00" ? "#001111" : "#00ff00");
+			if (e.key === "b") setColor(cur === "#0000ff" ? "#001111" : "#0000ff");
+		};
+		document.addEventListener("keydown", handleKeyDown);
 
 		const gl = canvas.getContext("webgl", { alpha: false, premultipliedAlpha: false });
 		if (!gl) { console.error("WebGL not supported"); return; }
@@ -169,14 +165,18 @@ export default function BackgroundVideo({
 		const uPx   = gl.getUniformLocation(program, "u_pixelSize");
 		const uBay  = gl.getUniformLocation(program, "u_bayerLevel");
 		const uLvl  = gl.getUniformLocation(program, "u_levels");
-		const uHue  = gl.getUniformLocation(program, "u_hueRotate");
 		const uSat  = gl.getUniformLocation(program, "u_saturate");
-		const uTime = gl.getUniformLocation(program, "u_time");
+		const uTime      = gl.getUniformLocation(program, "u_time");
+		const uScanSpeed = gl.getUniformLocation(program, "u_scanSpeed");
 
 		const startTime = performance.now();
 
 		function render(now: DOMHighResTimeStamp) {
 			const elapsed = (now - startTime) / 1000;
+
+			ctx.fillStyle = colorRef.current;
+			ctx.fillRect(0, 0, 2, 2);
+
 			const w = canvas.clientWidth, h = canvas.clientHeight;
 			if (canvas.width !== w || canvas.height !== h) {
 				canvas.width = w; canvas.height = h;
@@ -198,12 +198,12 @@ export default function BackgroundVideo({
 			gl!.uniform1i(uVid, 0);
 			gl!.uniform2f(uRes, canvas.width, canvas.height);
 			gl!.uniform2f(uVSz, offscreen.width, offscreen.height);
-			gl!.uniform1f(uPx, pixelSize);
-			gl!.uniform1f(uBay, bayerLevel);
-			gl!.uniform1f(uLvl, Math.max(2, levels));
-			gl!.uniform1f(uHue, (hueRotate * Math.PI) / 180);
-			gl!.uniform1f(uSat, saturate);
+			gl!.uniform1f(uPx, PIXEL_SIZE);
+			gl!.uniform1f(uBay, BAYER_LEVEL);
+			gl!.uniform1f(uLvl, LEVELS);
+			gl!.uniform1f(uSat, SATURATE);
 			gl!.uniform1f(uTime, elapsed);
+			gl!.uniform1f(uScanSpeed, CRT_SCAN_SPEED);
 
 			gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
 			setReady(true);
@@ -213,18 +213,19 @@ export default function BackgroundVideo({
 		rafRef.current = requestAnimationFrame(render);
 		return () => {
 			cancelAnimationFrame(rafRef.current);
+			document.removeEventListener("keydown", handleKeyDown);
 			gl.deleteTexture(texture);
 			gl.deleteProgram(program);
 		};
-	}, [pixelSize, bayerLevel, levels, hueRotate, saturate]);
+	}, []);
 
 	return (
 		<>
 			<canvas
 				ref={canvasRef}
-				className={twMerge("fixed inset-0 bg-[#005AFD] w-full h-full -z-10", className)}
+				className={twMerge("fixed inset-0 bg-[var(--bg)] w-full h-full -z-10", className)}
 				style={{
-				filter: `hue-rotate(${cssHueRotate}deg)`,
+				filter: `hue-rotate(${CSS_HUE_ROTATE}deg)`,
 				opacity: ready ? 1 : 0,
 				transition: "opacity 0.6s ease-in",
 			}}
