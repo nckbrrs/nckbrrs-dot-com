@@ -6,8 +6,8 @@ import MobileEdgeFades from "./MobileEdgeFades";
 import { BG_COLOR, SCANLINE_AVG, darkenHex } from "~/lib/colors";
 
 const PIXEL_SIZE    = 1;
-const BAYER_LEVEL   = 7;
-const LEVELS        = 5;
+const BAYER_LEVEL   = 5;
+const LEVELS        = 8;
 const SATURATE      = 1;
 const CSS_HUE_ROTATE = 0;
 const CRT_SCAN_SPEED    = 6;
@@ -127,9 +127,10 @@ export default function Background({ className }: BackgroundProps) {
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			const cur = colorRef.current;
-			if (e.key === "r") setColor(cur === "#ff0000" ? "#001111" : "#ff0000");
-			if (e.key === "g") setColor(cur === "#00ff00" ? "#001111" : "#00ff00");
-			if (e.key === "b") setColor(cur === "#0000ff" ? "#001111" : "#0000ff");
+			if (e.key === "r") setColor(cur === "#ff0000" ? "#0066bb" : "#ff0000");
+			if (e.key === "g") setColor(cur === "#00ff00" ? "#0066bb" : "#00ff00");
+			if (e.key === "b") setColor(cur === "#0000ff" ? "#0066bb" : "#0000ff");
+			if (e.key === "d") setColor(cur === "#001111" ? "#0066bb" : "#001111");
 		};
 		document.addEventListener("keydown", handleKeyDown);
 
@@ -225,10 +226,10 @@ export default function Background({ className }: BackgroundProps) {
 				ref={canvasRef}
 				className={twMerge("fixed inset-0 bg-[var(--bg)] w-full h-full -z-10", className)}
 				style={{
-				filter: `hue-rotate(${CSS_HUE_ROTATE}deg)`,
-				opacity: ready ? 1 : 0,
-				transition: "opacity 0.6s ease-in",
-			}}
+					filter: `hue-rotate(${CSS_HUE_ROTATE}deg)`,
+					opacity: ready ? 1 : 0,
+					transition: "opacity 0.6s ease-in",
+				}}
 			/>
 			<MobileEdgeFades className="fixed inset-0 -z-10" />
 		</>

@@ -72,7 +72,7 @@ export default function TopNav() {
 			href: "https://www.linkedin.com/in/nckbrrs"
 		},
 		{
-			linkType: "local",
+			linkType: "external",
 			text: "contact",
 			href: "mailto:hello@nickbarrs.com"
 		}

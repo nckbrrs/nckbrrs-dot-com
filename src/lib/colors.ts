@@ -1,4 +1,4 @@
-export const BG_COLOR = "#001111";
+export const BG_COLOR = "#0066bb";
 
 // Average brightness after CRT scanlines: 1 bright row + 3 dimmed rows (×0.40) per 4 = 0.55
 
