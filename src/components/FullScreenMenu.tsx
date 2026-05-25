@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Background from "./Background";
 import MobileEdgeFades from "./MobileEdgeFades";
+import Grain from "./Grain";
 import { cn } from "~/lib/utils";
 
 interface FullScreenMenuProps {
@@ -24,8 +24,7 @@ export default function FullScreenMenu({ isOpen, links, onClickLink }: FullScree
       initial={{ opacity: 0, pointerEvents: "none" }}
       transition={{ duration: 0.2 }}
     >
-      <div className="absolute inset-0 bg-black" />
-      <Background className="z-0" />
+      <Grain />
       <MobileEdgeFades className="absolute inset-0 z-10" />
       <nav className="group flex flex-col items-start gap-0 lg:gap-1 relative">
         {links.map((l) => (

@@ -2,7 +2,8 @@ import "~/app/globals.css";
 import { type Viewport, type Metadata } from "next";
 import TopNav from "~/components/TopNav";
 import Footer from "~/components/Footer";
-import Background from "~/components/Background";
+import Grain from "~/components/Grain";
+import MobileEdgeFades from "~/components/MobileEdgeFades";
 import { FADE_COLOR } from "~/lib/colors";
 
 export const metadata: Metadata = {
@@ -32,7 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       style={{ "--bg-fade": FADE_COLOR } as React.CSSProperties}
     >
       <body className="flex flex-col overflow-hidden w-full h-full items-center max-w-[2000px]">
-        <Background />
+        <Grain />
+        <MobileEdgeFades className="fixed inset-0 -z-10" />
         <TopNav />
         {children}
         <Footer />
