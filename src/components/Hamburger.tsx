@@ -1,76 +1,36 @@
-import { motion } from "framer-motion";
+import { cn } from "~/lib/utils";
 
-interface HamburgerProps {
-	isOpen: boolean;
-	onClick: () => void;
+type HamburgerProps = { isOpen: boolean };
+
+const W = 32;               // px — total width
+const H = 22;               // px — total height
+const TRANSLATE_X = 8;      // px - translate total hamburger to right when open
+const BAR_H = 4;            // px — thickness of each bar
+const TRANSLATE_BAR_Y = 13; // px - distance each outer bar travels to reach center
+
+const singleBarBaseStyle = cn("block w-full origin-center", "bg-black", "transition-all duration-200", "[box-shadow:0_4px_16px_rgba(0,0,0,0.18)]");
+
+export default function Hamburger({ isOpen }: HamburgerProps) {
+  return (
+    <div
+      className={cn(
+        "relative flex flex-col justify-between",
+        "hover:scale-105 transition-transform duration-200"
+      )}
+      style={{ width: W, height: H, transform: isOpen ? `translateX(${TRANSLATE_X}px)` : undefined }}
+    >
+      <span
+        className={cn(singleBarBaseStyle, isOpen ? "rotate-45" : "")}
+        style={{ height: BAR_H, transform: isOpen ? `translateY(${TRANSLATE_BAR_Y}px)` : undefined }}
+      />
+      <span
+        className={cn(singleBarBaseStyle, isOpen ? "opacity-0" : "")}
+        style={{ height: BAR_H }}
+      />
+      <span
+        className={cn(singleBarBaseStyle, isOpen ? "-rotate-45" : "")}
+        style={{ height: BAR_H, transform: isOpen ? `translateY(-${TRANSLATE_BAR_Y}px)` : undefined }}
+      />
+    </div>
+  );
 }
-
-export default function Hamburger({ isOpen, onClick }: HamburgerProps) {
-	const hamburgerBarMotionVariants = {
-		top: {
-			closed: {},
-			open: {
-				rotate: 45,
-				translateY: `${((100 - 3 * 10) / 4 + 10) * 10}%`,
-				scale: 0.75
-			}
-		},
-		middle: {
-			closed: {},
-			open: {
-				translateX: 100,
-				opacity: 0
-			}
-		},
-		bottom: {
-			closed: {},
-			open: {
-				rotate: -45,
-				translateY: `-${((100 - 3 * 10) / 4 + 10) * 10}%`,
-				scale: 0.75
-			}
-		}
-	};
-
-	return (
-		<motion.div
-			className={hamburgerStyling}
-			animate={isOpen ? "open" : "closed"}
-			onClick={onClick}
-		>
-			<motion.div
-				className={hamburgerBarStylingBase}
-				variants={hamburgerBarMotionVariants.top}
-			/>
-			<motion.div
-				className={hamburgerBarStylingBase}
-				variants={hamburgerBarMotionVariants.middle}
-			/>
-			<motion.div
-				className={hamburgerBarStylingBase}
-				variants={hamburgerBarMotionVariants.bottom}
-			/>
-		</motion.div>
-	);
-}
-
-const hamburgerStyling = `
-    flex
-    flex-col
-    h-full
-    w-full
-    justify-evenly
-    bg-transparent
-	rounded-xl
-    p-0
-	hover:scale-105
-	duration-200
-`;
-
-const hamburgerBarStylingBase = `
-    hamburgerBar
-    flex
-    flex-row
-    h-[10%]
-	bg-bone
-`;

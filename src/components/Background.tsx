@@ -1,20 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import { cn } from "~/lib/utils";
 import MobileEdgeFades from "./MobileEdgeFades";
-import { BG_COLOR, SCANLINE_AVG, darkenHex } from "~/lib/colors";
+import { BG_COLOR } from "~/lib/colors";
 
-const PIXEL_SIZE    = 1;
-const BAYER_LEVEL   = 5;
-const LEVELS        = 8;
-const SATURATE      = 1;
+const PIXEL_SIZE = 1;
+const BAYER_LEVEL = 4;
+const LEVELS = 4;
+const SATURATE = 4;
 const CSS_HUE_ROTATE = 0;
-const CRT_SCAN_SPEED    = 6;
-
-interface BackgroundProps {
-	className?: string;
-}
+const CRT_SCAN_SPEED = 0;
 
 const VERT_SRC = /* glsl */ `
   attribute vec2 a_position;
@@ -67,7 +63,7 @@ const FRAG_SRC = /* glsl */ `
 
     // Scanlines: dim every other two pixel rows, scrolling downward over time
     float scrolled = floor(v_texCoord.y * u_resolution.y) + floor(u_time * u_scanSpeed);
-    float scanline = 1.0 - 0.60 * step(1.0, mod(scrolled, 4.0));
+    float scanline = 1.0 - 0.011 * step(1.0, mod(scrolled, 2.0));
 
     // Apply CRT scanlines before dithering
     color.rgb *= scanline;
@@ -86,152 +82,138 @@ const FRAG_SRC = /* glsl */ `
 `;
 
 function createShader(gl: WebGLRenderingContext, type: number, src: string) {
-	const s = gl.createShader(type)!;
-	gl.shaderSource(s, src);
-	gl.compileShader(s);
-	if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
-		throw new Error(gl.getShaderInfoLog(s) ?? "shader error");
-	return s;
+  const s = gl.createShader(type)!;
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+    throw new Error(gl.getShaderInfoLog(s) ?? "shader error");
+  return s;
 }
 
 function createProgram(gl: WebGLRenderingContext, v: WebGLShader, f: WebGLShader) {
-	const p = gl.createProgram()!;
-	gl.attachShader(p, v);
-	gl.attachShader(p, f);
-	gl.linkProgram(p);
-	if (!gl.getProgramParameter(p, gl.LINK_STATUS))
-		throw new Error(gl.getProgramInfoLog(p) ?? "link error");
-	return p;
+  const p = gl.createProgram()!;
+  gl.attachShader(p, v);
+  gl.attachShader(p, f);
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS))
+    throw new Error(gl.getProgramInfoLog(p) ?? "link error");
+  return p;
 }
 
-export default function Background({ className }: BackgroundProps) {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const rafRef = useRef<number>(0);
-	const colorRef = useRef<string>(BG_COLOR);
-	const [ready, setReady] = useState(false);
+export default function Background({ className }: { className?: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
+  const colorRef = useRef<string>(BG_COLOR);
+  const [ready, setReady] = useState(false);
 
-	useEffect(() => {
-		const canvas = canvasRef.current!;
-		if (!canvas) return;
+  useEffect(() => {
+    const canvas = canvasRef.current!;
+    if (!canvas) return;
 
-		const offscreen = document.createElement("canvas");
-		offscreen.width = 2;
-		offscreen.height = 2;
-		const ctx = offscreen.getContext("2d")!;
+    const offscreen = document.createElement("canvas");
+    offscreen.width = 2;
+    offscreen.height = 2;
+    const ctx = offscreen.getContext("2d")!;
 
-		const setColor = (hex: string) => {
-			colorRef.current = hex;
-			document.documentElement.style.setProperty("--bg", hex);
-			document.documentElement.style.setProperty("--bg-fade", darkenHex(hex, SCANLINE_AVG));
-		};
+    const gl = canvas.getContext("webgl", { alpha: false, premultipliedAlpha: false });
+    if (!gl) { console.error("WebGL not supported"); return; }
 
-		const handleKeyDown = (e: KeyboardEvent) => {
-			const cur = colorRef.current;
-			if (e.key === "r") setColor(cur === "#ff0000" ? "#0066bb" : "#ff0000");
-			if (e.key === "g") setColor(cur === "#00ff00" ? "#0066bb" : "#00ff00");
-			if (e.key === "b") setColor(cur === "#0000ff" ? "#0066bb" : "#0000ff");
-			if (e.key === "d") setColor(cur === "#001111" ? "#0066bb" : "#001111");
-		};
-		document.addEventListener("keydown", handleKeyDown);
+    const program = createProgram(
+      gl,
+      createShader(gl, gl.VERTEX_SHADER, VERT_SRC),
+      createShader(gl, gl.FRAGMENT_SHADER, FRAG_SRC)
+    );
 
-		const gl = canvas.getContext("webgl", { alpha: false, premultipliedAlpha: false });
-		if (!gl) { console.error("WebGL not supported"); return; }
+    const posBuffer = gl.createBuffer()!;
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
 
-		const program = createProgram(
-			gl,
-			createShader(gl, gl.VERTEX_SHADER, VERT_SRC),
-			createShader(gl, gl.FRAGMENT_SHADER, FRAG_SRC)
-		);
+    const texBuffer = gl.createBuffer()!;
+    gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), gl.STATIC_DRAW);
 
-		const posBuffer = gl.createBuffer()!;
-		gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const texture = gl.createTexture()!;
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
-		const texBuffer = gl.createBuffer()!;
-		gl.bindBuffer(gl.ARRAY_BUFFER, texBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0,1, 1,1, 0,0, 1,0]), gl.STATIC_DRAW);
+    const aPos = gl.getAttribLocation(program, "a_position");
+    const aTex = gl.getAttribLocation(program, "a_texCoord");
+    const uVid = gl.getUniformLocation(program, "u_video");
+    const uRes = gl.getUniformLocation(program, "u_resolution");
+    const uVSz = gl.getUniformLocation(program, "u_videoSize");
+    const uPx = gl.getUniformLocation(program, "u_pixelSize");
+    const uBay = gl.getUniformLocation(program, "u_bayerLevel");
+    const uLvl = gl.getUniformLocation(program, "u_levels");
+    const uSat = gl.getUniformLocation(program, "u_saturate");
+    const uTime = gl.getUniformLocation(program, "u_time");
+    const uScanSpeed = gl.getUniformLocation(program, "u_scanSpeed");
 
-		const texture = gl.createTexture()!;
-		gl.bindTexture(gl.TEXTURE_2D, texture);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    const startTime = performance.now();
 
-		const aPos  = gl.getAttribLocation(program, "a_position");
-		const aTex  = gl.getAttribLocation(program, "a_texCoord");
-		const uVid  = gl.getUniformLocation(program, "u_video");
-		const uRes  = gl.getUniformLocation(program, "u_resolution");
-		const uVSz  = gl.getUniformLocation(program, "u_videoSize");
-		const uPx   = gl.getUniformLocation(program, "u_pixelSize");
-		const uBay  = gl.getUniformLocation(program, "u_bayerLevel");
-		const uLvl  = gl.getUniformLocation(program, "u_levels");
-		const uSat  = gl.getUniformLocation(program, "u_saturate");
-		const uTime      = gl.getUniformLocation(program, "u_time");
-		const uScanSpeed = gl.getUniformLocation(program, "u_scanSpeed");
+    function render(now: DOMHighResTimeStamp) {
+      const elapsed = (now - startTime) / 1000;
 
-		const startTime = performance.now();
+      ctx.fillStyle = colorRef.current;
+      ctx.fillRect(0, 0, 2, 2);
 
-		function render(now: DOMHighResTimeStamp) {
-			const elapsed = (now - startTime) / 1000;
+      const w = canvas.clientWidth,
+        h = canvas.clientHeight;
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+        gl!.viewport(0, 0, w, h);
+      }
 
-			ctx.fillStyle = colorRef.current;
-			ctx.fillRect(0, 0, 2, 2);
+      gl!.useProgram(program);
+      gl!.bindTexture(gl!.TEXTURE_2D, texture);
+      gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, offscreen);
 
-			const w = canvas.clientWidth, h = canvas.clientHeight;
-			if (canvas.width !== w || canvas.height !== h) {
-				canvas.width = w; canvas.height = h;
-				gl!.viewport(0, 0, w, h);
-			}
+      gl!.bindBuffer(gl!.ARRAY_BUFFER, posBuffer);
+      gl!.enableVertexAttribArray(aPos);
+      gl!.vertexAttribPointer(aPos, 2, gl!.FLOAT, false, 0, 0);
 
-			gl!.useProgram(program);
-			gl!.bindTexture(gl!.TEXTURE_2D, texture);
-			gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, offscreen);
+      gl!.bindBuffer(gl!.ARRAY_BUFFER, texBuffer);
+      gl!.enableVertexAttribArray(aTex);
+      gl!.vertexAttribPointer(aTex, 2, gl!.FLOAT, false, 0, 0);
 
-			gl!.bindBuffer(gl!.ARRAY_BUFFER, posBuffer);
-			gl!.enableVertexAttribArray(aPos);
-			gl!.vertexAttribPointer(aPos, 2, gl!.FLOAT, false, 0, 0);
+      gl!.uniform1i(uVid, 0);
+      gl!.uniform2f(uRes, canvas.width, canvas.height);
+      gl!.uniform2f(uVSz, offscreen.width, offscreen.height);
+      gl!.uniform1f(uPx, PIXEL_SIZE);
+      gl!.uniform1f(uBay, BAYER_LEVEL);
+      gl!.uniform1f(uLvl, LEVELS);
+      gl!.uniform1f(uSat, SATURATE);
+      gl!.uniform1f(uTime, elapsed);
+      gl!.uniform1f(uScanSpeed, CRT_SCAN_SPEED);
 
-			gl!.bindBuffer(gl!.ARRAY_BUFFER, texBuffer);
-			gl!.enableVertexAttribArray(aTex);
-			gl!.vertexAttribPointer(aTex, 2, gl!.FLOAT, false, 0, 0);
+      gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
+      setReady(true);
+      rafRef.current = requestAnimationFrame(render);
+    }
 
-			gl!.uniform1i(uVid, 0);
-			gl!.uniform2f(uRes, canvas.width, canvas.height);
-			gl!.uniform2f(uVSz, offscreen.width, offscreen.height);
-			gl!.uniform1f(uPx, PIXEL_SIZE);
-			gl!.uniform1f(uBay, BAYER_LEVEL);
-			gl!.uniform1f(uLvl, LEVELS);
-			gl!.uniform1f(uSat, SATURATE);
-			gl!.uniform1f(uTime, elapsed);
-			gl!.uniform1f(uScanSpeed, CRT_SCAN_SPEED);
+    rafRef.current = requestAnimationFrame(render);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      gl.deleteTexture(texture);
+      gl.deleteProgram(program);
+    };
+  }, []);
 
-			gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
-			setReady(true);
-			rafRef.current = requestAnimationFrame(render);
-		}
-
-		rafRef.current = requestAnimationFrame(render);
-		return () => {
-			cancelAnimationFrame(rafRef.current);
-			document.removeEventListener("keydown", handleKeyDown);
-			gl.deleteTexture(texture);
-			gl.deleteProgram(program);
-		};
-	}, []);
-
-	return (
-		<>
-			<canvas
-				ref={canvasRef}
-				className={twMerge("fixed inset-0 bg-[var(--bg)] w-full h-full -z-10", className)}
-				style={{
-					filter: `hue-rotate(${CSS_HUE_ROTATE}deg)`,
-					opacity: ready ? 1 : 0,
-					transition: "opacity 0.6s ease-in",
-				}}
-			/>
-			<MobileEdgeFades className="fixed inset-0 -z-10" />
-		</>
-	);
+  return (
+    <>
+      <canvas
+        ref={canvasRef}
+        className={cn("fixed inset-0 bg-(--bg) w-full h-full -z-10", className)}
+        style={{
+          filter: `hue-rotate(${CSS_HUE_ROTATE}deg)`,
+          opacity: ready ? 1 : 0,
+          transition: "opacity 0.6s ease-in",
+        }}
+      />
+      <MobileEdgeFades className="fixed inset-0 -z-10" />
+    </>
+  );
 }

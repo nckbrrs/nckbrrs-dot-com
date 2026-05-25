@@ -1,126 +1,50 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import FullScreenMenu from "./FullScreenMenu";
 import Hamburger from "./Hamburger";
+import { cn } from "~/lib/utils";
+
+const links: { linkType: "external" | "local"; text: string; href: string }[] = [
+  { linkType: "external", text: "instagram", href: "https://www.instagram.com/nckbrrs" },
+  { linkType: "external", text: "youtube", href: "https://www.youtube.com/@nckbrrs" },
+  { linkType: "external", text: "github", href: "https://www.github.com/nckbrrs" },
+  { linkType: "external", text: "linkedin", href: "https://www.linkedin.com/in/nckbrrs" },
+  { linkType: "external", text: "contact", href: "mailto:hello@nickbarrs.com" },
+];
 
 export default function TopNav() {
-	const [fullScreenMenuIsOpen, setFullScreenMenuIsOpen] =
-		useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-	const onClickHamburger = () => {
-		fullScreenMenuIsOpen ? closeFullScreenMenu() : openFullScreenMenu();
-	};
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
+  const toggle = () => (isOpen ? close() : open());
 
-	const openFullScreenMenu = () => {
-		setFullScreenMenuIsOpen(true);
-	};
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
 
-	const closeFullScreenMenu = () => {
-		setFullScreenMenuIsOpen(false);
-	};
-
-	// First-render things
-	useEffect(() => {
-		// Handler to call on window resize
-		const handleResize = () => {
-			let vh = window.innerHeight * 0.01;
-			document.documentElement.style.setProperty("--vh", `${vh}px`);
-		};
-
-		// Add event listener for resize
-		window.addEventListener("resize", handleResize);
-
-		// Call resize handler right away so state gets updated with initial window size
-		handleResize();
-
-		// Close full-screen menu on Escape
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === "Escape") closeFullScreenMenu();
-		};
-		document.addEventListener("keydown", handleKeyDown);
-
-		return () => {
-			window.removeEventListener("resize", handleResize);
-			document.removeEventListener("keydown", handleKeyDown);
-		};
-	}, []);
-
-	const links: {
-		linkType: "external" | "local";
-		text: string;
-		href: string;
-	}[] = [
-		{
-			linkType: "external",
-			text: "instagram",
-			href: "https://www.instagram.com/nckbrrs"
-		},
-		{
-			linkType: "external",
-			text: "youtube",
-			href: "https://www.youtube.com/@nckbrrs"
-		},
-		{
-			linkType: "external",
-			text: "github",
-			href: "https://www.github.com/nckbrrs"
-		},
-		{
-			linkType: "external",
-			text: "linkedin",
-			href: "https://www.linkedin.com/in/nckbrrs"
-		},
-		{
-			linkType: "external",
-			text: "contact",
-			href: "mailto:hello@nickbarrs.com"
-		}
-	];
-
-	return (
-		<>
-			<FullScreenMenu
-				isOpen={fullScreenMenuIsOpen}
-				links={links}
-				onClickLink={() =>
-					setTimeout(() => closeFullScreenMenu(), 20)
-				}
-			/>
-			<div className={topNavContainerStyling}>
-				<div />
-				<div
-					id="hamburgerContainer"
-					className={hamburgerContainerStyling}
-					onClick={onClickHamburger}
-				>
-					<Hamburger
-						isOpen={fullScreenMenuIsOpen}
-						onClick={onClickHamburger}
-					/>
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <FullScreenMenu isOpen={isOpen} links={links} onClickLink={() => setTimeout(close, 20)} />
+      <div className={cn(
+        "flex flex-row justify-between items-end",
+        "w-full h-20 sm:h-24 md:h-28",
+        "px-6 md:px-16"
+      )}>
+        <div />
+        <button
+          onClick={toggle}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          className="cursor-pointer z-20"
+        >
+          <Hamburger isOpen={isOpen} />
+        </button>
+      </div>
+    </>
+  );
 }
-
-const topNavContainerStyling = `
-	flex
-	flex-row
-	w-full
-	h-20 sm:h-24 md:h-28
-	justify-between
-	items-end
-  	px-6 md:px-16
-`;
-
-const hamburgerContainerStyling = `
-	flex
-	flex-col
-	w-12 sm:w-14
-	h-12 sm:h-14
-	cursor-pointer
-	z-20
-p-2
-	-mr-2
-`;

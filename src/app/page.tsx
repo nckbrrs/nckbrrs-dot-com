@@ -1,110 +1,49 @@
-import NounBubble from "../components/NounBubble";
+import NounBubble from "~/components/NounBubble";
+import { cn } from "~/lib/utils";
 
 export default function Home() {
-	const nounsForBubble: { text: string; width: number }[] = [
-    { text: "human", width: 10 },
-		{ text: "programmer", width: 16 },
-		{ text: "creative", width: 12 },
-		{ text: "musician", width: 13 },
-		{ text: "photographer", width: 16 },
-		{ text: "vocalist", width: 10 },
-		{ text: "coffee snob", width: 16 },
-		{ text: "gamer", width: 9 },
-		{ text: "husband", width: 13 },
-		{ text: "enneagram 9", width: 16 },
-		{ text: "lego builder", width: 15 },
-		{ text: "human", width: 10 }
-	];
-
-	return (
-		<div className={scrollContainerStyling}>
-			<div className={containerStyling}>
-				<div className={nameRowContainerStyling}>
-					<p className={nameTextStyling}>
-						nick <span className="tracking-tight">barrs</span>
-					</p>
-				</div>
-				<div className={descriptionContainerStyling}>
-					<div className={isANounContainerStyling}>
-						<p className={isATextStyling}>is a</p>
-						<div className={nounBubbleContainerStyling}>
-							<NounBubble nouns={nounsForBubble} />
-						</div>
-					</div>
-					<p className={livingWorkingTextStyling}>
-						living and working in New York City.
-					</p>
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className="flex flex-col flex-1 justify-center w-full overflow-y-auto">
+      <div className={cn(
+        "flex flex-col w-full items-start",
+        "px-6 md:px-16",
+        "text-black"
+      )}>
+        <div className="flex flex-row pb-3 lg:pb-4">
+          <p className={cn(
+            "-translate-x-2 font-bold",
+            "tracking-tighter",
+            "text-[8rem] lg:text-[12rem]",
+            "[line-height:7rem] lg:[line-height:10rem]",
+            "w-1/2 md:w-full",
+            "[text-shadow:0_2px_16px_rgba(0,0,0,0.18)]"
+          )}>
+            nick <span className="tracking-tight">barrs</span>
+          </p>
+        </div>
+        <div className={cn(
+          "flex flex-col items-start lg:items-center",
+          "lg:flex-row",
+          "tracking-tight",
+          "text-3xl lg:text-4xl",
+          "max-w-xs lg:max-w-full"
+        )}>
+          <div className="flex flex-row w-fit items-center">
+            <p className="font-medium whitespace-nowrap [text-shadow:0_2px_12px_rgba(0,0,0,0.18)]">is a</p>
+            <div className="scale-100 mx-3">
+              <NounBubble />
+            </div>
+          </div>
+          <p className={cn(
+            "font-medium",
+            "leading-[3rem] lg:leading-[4rem]",
+            "lg:whitespace-nowrap",
+            "[text-shadow:0_0px_2px_rgba(0,0,0,0.18)]"
+          )}>
+            living and working in New York City.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-const scrollContainerStyling = `
-  flex
-  flex-col
-  flex-1
-  overflow-y-auto
-  w-full
-`;
-
-const containerStyling = `
-  flex
-  flex-col
-  w-full
-  items-start
-  w-full
-  pt-10
-  text-bone
-
-  px-6 md:px-16
-  my-auto
-`;
-
-const nameRowContainerStyling = `
-  flex
-  flex-row
-  pb-3 lg:pb-4
-`;
-
-const nameTextStyling = `
-  -translate-x-2
-  font-bold
-  tracking-tighter
-  leading-[7rem] lg:leading-[10rem]
-  text-[8rem] lg:text-[12rem]
-  w-1/2 md:w-full
-  [text-shadow:0_2px_16px_rgba(0,0,0,0.18)]
-`;
-
-const descriptionContainerStyling = `
-  flex
-  flex-col
-  items-start lg:items-center
-  tracking-tight
-  lg:flex-row
-  text-3xl lg:text-4xl
-  max-w-xs lg:max-w-full
-`;
-const isANounContainerStyling = `
-  flex
-  flex-row
-  w-fit
-  items-center
-`;
-const isATextStyling = `
-  font-medium
-  whitespace-nowrap
-  [text-shadow:0_2px_12px_rgba(0,0,0,0.18)]
-`;
-
-const nounBubbleContainerStyling = `
-  scale-100 mx-3
-`;
-
-const livingWorkingTextStyling = `
-  font-medium
-  leading-[3rem] lg:leading-[4rem]
-  lg:whitespace-nowrap
-  [text-shadow:0_2px_12px_rgba(0,0,0,0.18)]
-`;
