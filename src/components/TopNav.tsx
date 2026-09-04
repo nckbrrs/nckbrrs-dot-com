@@ -6,9 +6,9 @@ import { useMenuState } from "~/hooks/useMenuState";
 import { cn } from "~/lib/utils";
 
 const links: { linkType: "external" | "local"; text: string; href: string }[] = [
+  { linkType: "external", text: "twitter", href: "https://x.com/nckbrrs" },
   { linkType: "external", text: "instagram", href: "https://www.instagram.com/nckbrrs" },
   { linkType: "external", text: "youtube", href: "https://www.youtube.com/@nckbrrs" },
-  { linkType: "external", text: "twitter", href: "https://x.com/nckbrrs" },
   { linkType: "external", text: "github", href: "https://www.github.com/nckbrrs" },
   { linkType: "external", text: "linkedin", href: "https://www.linkedin.com/in/nckbrrs" },
   { linkType: "external", text: "contact", href: "mailto:hello@nickbarrs.com" },
