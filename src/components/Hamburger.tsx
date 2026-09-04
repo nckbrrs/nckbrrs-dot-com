@@ -8,7 +8,7 @@ const TRANSLATE_X = 8;      // px - translate total hamburger to right when open
 const BAR_H = 4;            // px — thickness of each bar
 const TRANSLATE_BAR_Y = 13; // px - distance each outer bar travels to reach center
 
-const singleBarBaseStyle = cn("block w-full origin-center", "bg-black", "transition-all duration-200", "[box-shadow:0_4px_16px_rgba(0,0,0,0.18)]");
+const singleBarBaseStyle = cn("block w-full origin-center", "bg-black", "transition-all duration-200");
 
 export default function Hamburger({ isOpen }: HamburgerProps) {
   return (
