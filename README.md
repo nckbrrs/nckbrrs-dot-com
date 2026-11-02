@@ -16,9 +16,3 @@ src/
   content/        the data: nav links, nouns, journal entries
   lib/            utilities
 ```
-
-## Adding a journal entry
-
-Add an object to the top of `src/content/journal.ts`. Photos can live anywhere
-`next/image` is allowed to fetch from (`images.remotePatterns` in `next.config.ts`),
-so moving from the placeholder host to S3 or Vercel Blob is a URL change.
