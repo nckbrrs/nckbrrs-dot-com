@@ -1,0 +1,17 @@
+export const nouns = [
+  "human",
+  "software eng.",
+  "creative",
+  "musician",
+  "pastry lover",
+  "photographer",
+  "friend",
+  "vocalist",
+  "coffee snob",
+  "concert addict",
+  "gamer",
+  "husband",
+  "enneagram 9",
+  "lego builder",
+  "knicks fan",
+];

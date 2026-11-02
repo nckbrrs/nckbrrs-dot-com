@@ -1,40 +1,98 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-@theme {
-  --color-bone: #fbf6f1;
-  --color-black: #212121;
-  --font-sans: "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
-  --animate-wiggle: wiggle 0.6s ease-out;
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --breakpoint-xs: 23rem; /* 368px: below this the hero steps down a size */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: var(--font-sans);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-breathe: breathe 9s ease-in-out infinite;
 }
 
-@keyframes wiggle {
+/* The logo's size, and how far in its left stem (the leg) sits: page content lines up on the leg.
+   The stem starts at x = 83.22 of the drawing's 300. */
+@theme {
+  --spacing-logo: 30px;
+  --spacing-leg: calc(var(--spacing-logo) * 83.22 / 300);
+}
+
+/* Breathe: the clear zone around the name swells and the grain brightens, slowly, like an inhale. */
+@property --hole {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 25%;
+}
+
+@keyframes breathe {
   0%,
   100% {
-    transform: rotate(0deg);
+    --hole: 22%;
+    opacity: 0.08;
   }
-  20% {
-    transform: rotate(-14deg);
-  }
-  40% {
-    transform: rotate(14deg);
-  }
-  60% {
-    transform: rotate(-14deg);
-  }
-  80% {
-    transform: rotate(14deg);
+  50% {
+    --hole: 30%;
+    opacity: 0.12;
   }
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  scrollbar-width: none;
+@keyframes float {
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-*::-webkit-scrollbar {
-  display: none;
+
+:root {
+  --background: #fbf6f1; /* bone */
+  --foreground: #212121;
+  --muted: #efe8e1;
+  --muted-foreground: #8a8481;
+  --border: #e6ded6;
+  --ring: #b7b0aa;
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --primary: var(--foreground);
+  --primary-foreground: var(--background);
+  --radius: 0.625rem;
 }
 
 @layer base {
-  a { color: inherit; text-decoration: none; }
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
+  html {
+    @apply font-sans antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
