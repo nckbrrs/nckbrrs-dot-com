@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { anticipate, motion } from "motion/react";
 import { nouns } from "@/content/nouns";
 
 const INTERVAL_S = 2.5; // seconds each noun is shown
@@ -28,6 +28,16 @@ const colors = [
 
 // The strip ends on the word it started with so the loop is seamless.
 const words = [...nouns, nouns[0]];
+
+// One color per word, so color and word share a keyframe (and a loop length), however
+// many nouns there are. The last matches the first to close the loop.
+const wordColors = words.map((_, i) => colors[i === words.length - 1 ? 0 : i % colors.length]);
+
+// The word's ease dips backwards before it slides, which would push a color past its
+// ends; clamped, the color holds through the dip and then changes with the slide.
+// Given once per word: a single function would stretch across the whole loop.
+const colorEase = (p: number) => Math.min(1, Math.max(0, anticipate(p)));
+const colorEases = words.slice(1).map(() => colorEase);
 
 type Layout = { fontSize: number; widths: number[] };
 
@@ -67,10 +77,10 @@ export function NounBubble() {
     <motion.span
       className="relative mx-3 inline-flex items-center justify-center overflow-hidden rounded-full"
       style={{ height: pillHeight }}
-      initial={{ backgroundColor: colors[0], width: bubbleWidths[0] }}
-      animate={{ backgroundColor: colors, width: bubbleWidths }}
+      initial={{ backgroundColor: wordColors[0], width: bubbleWidths[0] }}
+      animate={{ backgroundColor: wordColors, width: bubbleWidths }}
       transition={{
-        backgroundColor: { ...loop, duration: (colors.length - 1) * INTERVAL_S },
+        backgroundColor: { ...loop, ease: colorEases, duration: (words.length - 1) * INTERVAL_S },
         width: { ...loop, duration: (words.length - 1) * INTERVAL_S },
       }}
     >
