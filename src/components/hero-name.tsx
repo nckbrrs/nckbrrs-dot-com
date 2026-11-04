@@ -7,7 +7,10 @@ function Word({ text, className, startIndex }: { text: string; className?: strin
         <span
           key={i}
           style={{ animationDelay: `${(startIndex + i) * 50}ms` }}
-          className="inline-block animate-in fill-mode-backwards fade-in slide-in-from-bottom-8 zoom-in-75 [animation-duration:600ms] [animation-timing-function:cubic-bezier(.34,1.56,.64,1)]"
+          // The negative tracking shrinks each box below its glyph (the k by ~0.05em); the
+          // padding gives the ink room so Safari doesn't clip it mid-animation, and the
+          // negative margin takes it back out of the layout.
+          className="-mr-[0.1em] inline-block animate-in pr-[0.1em] fill-mode-backwards fade-in slide-in-from-bottom-8 zoom-in-75 [animation-duration:600ms] [animation-timing-function:cubic-bezier(.34,1.56,.64,1)]"
         >
           {letter}
         </span>
