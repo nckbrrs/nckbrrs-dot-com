@@ -32,7 +32,7 @@ export function HeroName({
   return (
     <h1
       className={cn(
-        "ml-leg -translate-x-[0.055em] animate-float cursor-default font-bold tracking-tighter whitespace-nowrap select-none lg:ml-0 lg:translate-x-0",
+        "ml-leg -translate-x-[0.055em] cursor-default font-bold tracking-tighter whitespace-nowrap select-none lg:ml-0 lg:translate-x-0",
         className,
       )}
     >
